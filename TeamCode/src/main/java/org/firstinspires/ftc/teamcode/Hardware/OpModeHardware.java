@@ -6,10 +6,12 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Subsystems.Drivetrain;
+import org.firstinspires.ftc.teamcode.Hardware.Subsystems.Lift;
 
 public class OpModeHardware extends BasicHardware{
 
     public Drivetrain drive;
+    public Lift lift;
     //TODO add accessories and preset enums
 
 
@@ -22,8 +24,9 @@ public class OpModeHardware extends BasicHardware{
     public void init() {
         drive = new Drivetrain(opMode);
         //TODO lift and claw inits
+        lift = new Lift(opMode);
 
-        opMode.telemetry.addData("status: ", "initalized");
+        opMode.telemetry.addData("status: ", "initialized");
         opMode.telemetry.update();
     }
 }

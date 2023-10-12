@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class Drivetrain {
-    DcMotorEx fl, fr, bl, br;
+    private DcMotorEx fl, fr, bl, br;
 
     LinearOpMode opMode;
 
@@ -69,6 +69,5 @@ public class Drivetrain {
             bl.setPower(blPower);
             br.setPower(brPower);
         }
-
     }
 }
