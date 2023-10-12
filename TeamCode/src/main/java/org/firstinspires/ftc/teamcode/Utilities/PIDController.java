@@ -11,7 +11,7 @@ public class PIDController {
     private double integralSum = 0;
     private double lastError = 0;
     ElapsedTime timer = new ElapsedTime();
-    private DcMotorEx motor;
+    private final DcMotorEx motor;
 
     public PIDController(DcMotorEx motor, PIDFCoefficients coefficients, double reference) {
         this.motor = motor;
