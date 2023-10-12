@@ -1,11 +1,10 @@
 package org.firstinspires.ftc.teamcode.Utilities;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDCoefficients;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class PIDController {
+public class PIDFController {
     private double kp, ki, kd, kf;
     private final double reference;
     private double integralSum = 0;
@@ -13,7 +12,7 @@ public class PIDController {
     ElapsedTime timer = new ElapsedTime();
     private final DcMotorEx motor;
 
-    public PIDController(DcMotorEx motor, PIDFCoefficients coefficients, double reference) {
+    public PIDFController(DcMotorEx motor, PIDFCoefficients coefficients, double reference) {
         this.motor = motor;
         coefficients.p = kp;
         coefficients.i = ki;
