@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import org.firstinspires.ftc.teamcode.Utilities.PIDFController;
 
 public class Lift {
-    private DcMotorEx lift;
+    private final DcMotorEx lift;
 
     LinearOpMode opMode;
 
