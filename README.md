@@ -14,4 +14,3 @@ Features:
 Future Teams
 Please don't make any changes to the actual code in the repository. Once our season is over, I'd like to keep this as reference for future teams to use the code.
 
-Tutorial:
