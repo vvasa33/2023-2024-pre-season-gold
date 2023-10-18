@@ -15,3 +15,5 @@ Start:
 
 You can check out our code, but you'll need some experience with the Java programming language in
 order to understand what's going on.
+
+Ok?
