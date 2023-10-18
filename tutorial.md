@@ -60,3 +60,9 @@ requires information from the claw subsystem to maximize efficiency and teleop a
 
 
 # Implementations
+
+In this section, I'll explain how some of the things in our code work and how they're implemented
+so that it's easier to understand and implement in your own code. Note that a lot of this stuff
+is very complex, so if you don't know what you're doing please get some more experience before trying.
+
+## 
