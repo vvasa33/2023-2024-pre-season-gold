@@ -1,4 +1,4 @@
-### Tutorial
+# Tutorial
 
 Our team has used a mix of the FtcRobotController along with the Android Studio Platform in order
 to build our opModes for competition. Please don't use blocks or onBotJava, they're not very good
@@ -19,9 +19,9 @@ order to understand what's going on. We've adopted a subsystem hierarchy to supp
 means that if you want to see something related to the claw, for instance, you would go to the claw
 class. 
 
-### Components
+# Components
 
-## The Robot Class
+## The Robot Class (opModeHardware)
 
 The robot class is where all of the subsystems are initialized and defined. Usually, when developing
 an op mode, you don't want to have to copy and paste all of the initialization stuff every time,
@@ -40,3 +40,23 @@ lift to know when the claw has just finished depositing, here are the steps:
 When implementing this, make sure that your file hierarchy works and that every file can reference
 to HardwareConstants when it needs to.
 
+## Subsystems
+
+This is the meat of your code, where all of the main stuff for controlling different physical
+things on the robot are written. In professional terms, this is called an interface, because it 
+connects the hardware and software with each other. While it may seem counterintuitive to separate
+components which are supposed to work together, inheritance allows you to create and share data
+between components through the HardwareConstants.java file (ideal) or OpModeHardware (in a rush). 
+
+### Breakdown
+
+Here's some step-by-step instructions for programming a lift subsystem (our V-rail lift) that
+requires information from the claw subsystem to maximize efficiency and teleop automation
+
+1. Initialize the motors needed for the lift. Put all of your variables in the HardwareConstants file
+2. Write the constructor, which should take in the hardwareMap object from the opModeHardware class (where it will be initialized) and perform initialization. 
+3. Write the lift methods, as if you were writing it in a regular class. Just remember that some objects like the gamepad might have to be referenced from the opMode object (like opMode.gamepad1. ...)
+4. Any information the lift needs from the claw should be referenced from the hardwareMap class.
+
+
+# Implementations
