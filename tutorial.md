@@ -65,4 +65,13 @@ In this section, I'll explain how some of the things in our code work and how th
 so that it's easier to understand and implement in your own code. Note that a lot of this stuff
 is very complex, so if you don't know what you're doing please get some more experience before trying.
 
-## 
+## Drivetrain
+
+We use a field-centric drive using the 2 parallel dead wheel encoders and a bit of math using the
+gamepad. Check the Drivetrain.java file for more details about how it works.
+
+## PIDF Controller
+
+A PIDF Controller (Proportional, Integral, Derivative, Feedforward) is a form of closed-loop control
+that allows you to get a lot of control over a motor or CR servo's movement. Check out the 
+PIDFController.java file for a low-level implementation of this. 
