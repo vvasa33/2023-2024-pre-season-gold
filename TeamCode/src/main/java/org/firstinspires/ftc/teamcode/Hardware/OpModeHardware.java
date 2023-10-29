@@ -7,10 +7,11 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.Subsystems.Drivetrain;
 import org.firstinspires.ftc.teamcode.Hardware.Subsystems.Lift;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class OpModeHardware extends BasicHardware{
 
-    public Drivetrain drive;
+    public SampleMecanumDrive drive;
     public Lift lift;
     //TODO add accessories and preset enums
 
@@ -22,7 +23,7 @@ public class OpModeHardware extends BasicHardware{
 
     @Override
     public void init() {
-        drive = new Drivetrain(opMode);
+        drive = new SampleMecanumDrive(opMode.hardwareMap);
         //TODO lift and claw inits
         lift = new Lift(opMode);
 
