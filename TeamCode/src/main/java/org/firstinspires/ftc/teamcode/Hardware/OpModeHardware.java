@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class OpModeHardware extends BasicHardware{
 
-    public SampleMecanumDrive drive;
+    public Drivetrain drive;
     public Lift lift;
     //TODO add accessories and preset enums
 
@@ -23,7 +23,7 @@ public class OpModeHardware extends BasicHardware{
 
     @Override
     public void init() {
-        drive = new SampleMecanumDrive(opMode.hardwareMap);
+        drive = new Drivetrain(opMode.hardwareMap, opMode);
         //TODO lift and claw inits
         lift = new Lift(opMode);
 

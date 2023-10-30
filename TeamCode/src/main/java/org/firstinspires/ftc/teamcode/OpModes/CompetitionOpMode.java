@@ -22,7 +22,7 @@ public class CompetitionOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-
+            robot.drive.moveRobotFieldCentric();
         }
     }
 }

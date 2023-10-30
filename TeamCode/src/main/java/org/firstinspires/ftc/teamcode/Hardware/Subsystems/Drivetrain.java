@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class Drivetrain extends SampleMecanumDrive {
 
-    private LinearOpMode opMode;
+    private final LinearOpMode opMode;
     public Drivetrain(HardwareMap hardwareMap, LinearOpMode opMode) {
         super(hardwareMap);
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
