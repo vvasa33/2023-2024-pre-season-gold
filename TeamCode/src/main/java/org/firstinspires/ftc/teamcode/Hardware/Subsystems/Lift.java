@@ -24,6 +24,7 @@ public class Lift {
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         setLiftParameters(DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
+        //TODO Tune these values for the lift PID
         liftController = new PIDFController(lift, new PIDFCoefficients(0,0,0,0));
     }
 

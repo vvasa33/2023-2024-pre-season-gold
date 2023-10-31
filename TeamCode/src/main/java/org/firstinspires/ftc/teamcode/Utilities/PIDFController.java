@@ -5,7 +5,9 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class PIDFController {
-    private double kp, ki, kd, kf;
+    private double kp, ki, kd;
+    //TODO tune kg for gravity feedforward for V-rail mounts
+    private double kg;
 
     private double integralSum = 0;
     private double lastError = 0;
@@ -17,8 +19,7 @@ public class PIDFController {
         coefficients.p = kp;
         coefficients.i = ki;
         coefficients.d = kd;
-        coefficients.f = kf;
-
+        coefficients.f = kg;
     }
 
     public double calculate(double reference) {
@@ -30,6 +31,8 @@ public class PIDFController {
         integralSum += error * timer.seconds();
 
         double output = (kp * error) + (ki * integralSum) + (kd * derivative);
+
+        output += kg;
 
         timer.reset();
         lastError = error;

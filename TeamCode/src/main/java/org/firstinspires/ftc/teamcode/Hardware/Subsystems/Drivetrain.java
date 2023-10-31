@@ -25,8 +25,8 @@ public class Drivetrain extends SampleMecanumDrive {
         Pose2d estimate = getPoseEstimate();
 
         Vector2d input = new Vector2d(
-                -opMode.gamepad1.left_stick_y,
-                -opMode.gamepad1.left_stick_x
+                -opMode.gamepad1.left_stick_y * ((opMode.gamepad1.right_bumper) ? 0.3 : 1),
+                -opMode.gamepad1.left_stick_x * ((opMode.gamepad1.right_bumper) ? 0.3 : 1)
         ).rotated(-estimate.getHeading());
 
         setWeightedDrivePower(
