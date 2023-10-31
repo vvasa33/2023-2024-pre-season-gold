@@ -47,5 +47,10 @@ public class Claw {
            HardwareConstants.currentLeftClawState = ClawStates.OPEN;
            HardwareConstants.currentRightClawState = ClawStates.OPEN;
         }
+
+        if (opMode.gamepad2.dpad_right) {
+            HardwareConstants.currentLeftClawState = ClawStates.CLOSED;
+            HardwareConstants.currentRightClawState = ClawStates.CLOSED;
+        }
     }
 }
