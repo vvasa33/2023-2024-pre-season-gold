@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware.Subsystems;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
@@ -21,6 +22,9 @@ public class Lift {
     public Lift(LinearOpMode opMode) {
         this.opMode = opMode;
         lift = opMode.hardwareMap.get(DcMotorEx.class, "lift");
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        setLiftParameters(DcMotor.RunMode.RUN_WITHOUT_ENCODER, 0);
         liftController = new PIDFController(lift, new PIDFCoefficients(0,0,0,0));
     }
 
@@ -28,13 +32,13 @@ public class Lift {
         switch (HardwareConstants.currentLiftState) {
             case GROUND:
                 if (opMode.gamepad2.b) {
-                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_1;
                 } else if (opMode.gamepad2.x) {
-                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_2;
                 } else if (opMode.gamepad2.y) {
-                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_3;
                 } else {
                     setLiftParameters();
@@ -45,39 +49,39 @@ public class Lift {
                 }
             case SETLINE_1:
                 if (opMode.gamepad2.a) {
-                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.GROUND;
                 } else if (opMode.gamepad2.x) {
-                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_2;
                 } else if (opMode.gamepad2.y) {
-                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_3;
                 } else {
                     setLiftParameters();
                 }
             case SETLINE_2:
                 if (opMode.gamepad2.a) {
-                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.GROUND;
                 } else if (opMode.gamepad2.b) {
-                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_1;
                 } else if (opMode.gamepad2.y) {
-                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_3;
                 } else {
                     setLiftParameters();
                 }
             case SETLINE_3:
                 if (opMode.gamepad2.a) {
-                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.GROUND;
                 } else if (opMode.gamepad2.b) {
-                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_1;
                 } else if (opMode.gamepad2.x) {
-                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_2;
                 } else {
                     setLiftParameters();
@@ -90,16 +94,16 @@ public class Lift {
                 }
 
                 if (opMode.gamepad2.a) {
-                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.GROUND.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.GROUND;
                 } else if (opMode.gamepad2.b) {
-                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_1.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_1;
                 } else if (opMode.gamepad2.x) {
-                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_2.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_2;
                 } else if (opMode.gamepad2.y) {
-                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION, HardwareConstants.liftSpeed);
+                    setLiftParameters(LiftStates.SETLINE_3.getValue(), DcMotor.RunMode.RUN_TO_POSITION);
                     HardwareConstants.currentLiftState = LiftStates.SETLINE_3;
                 } else {
                     setLiftParameters();
@@ -107,7 +111,7 @@ public class Lift {
         }
     }
 
-    public void setLiftParameters(int position, DcMotor.RunMode runmode, double power) {
+    public void setLiftParameters(int position, DcMotor.RunMode runmode) {
         lift.setTargetPosition(position);
         lift.setMode(runmode);
         lift.setPower(liftController.calculate(position));

@@ -23,6 +23,7 @@ public class CompetitionOpMode extends LinearOpMode {
 
         while (opModeIsActive()) {
             robot.drive.moveRobotFieldCentric();
+            robot.lift.controlLift();
         }
     }
 }

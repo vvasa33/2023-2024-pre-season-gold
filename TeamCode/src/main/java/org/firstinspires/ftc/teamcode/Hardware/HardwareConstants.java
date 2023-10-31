@@ -13,7 +13,7 @@ public class HardwareConstants {
         SETLINE_3 (3000),
         MANUAL (0);
 
-        private int val;
+        private final int val;
 
         LiftStates(int val) {
             this.val = val;
@@ -25,11 +25,28 @@ public class HardwareConstants {
     }
     public static LiftStates currentLiftState = LiftStates.GROUND;
 
+    public enum ClawStates {
+        OPEN(0),
+        CLOSED(1);
+
+        private final int val;
+
+        ClawStates(int val) {this.val = val;}
+
+        public int getValue() {return val;}
+    }
+    public static ClawStates currentLeftClawState = ClawStates.CLOSED;
+    public static ClawStates currentRightClawState = ClawStates.CLOSED;
 
     //HARDWARE CONSTANTS
+
+    //LIFT STUFF
     public static final double liftSpeed = 0.5;
     public static final double slowLiftSpeed = 0.3;
     public static final double noLiftSpeed = 0.0;
+
+    //
+
     public static final String autoGroup = "Auto";
     public static final String opModeGroup = "TeleOp";
     public static final String controlGroup = "Control";
