@@ -28,6 +28,8 @@ public class HardwareConstants {
 
     //HARDWARE CONSTANTS
     public static final double liftSpeed = 0.5;
+    public static final double slowLiftSpeed = 0.3;
+    public static final double noLiftSpeed = 0.0;
     public static final String autoGroup = "Auto";
     public static final String opModeGroup = "TeleOp";
     public static final String controlGroup = "Control";
