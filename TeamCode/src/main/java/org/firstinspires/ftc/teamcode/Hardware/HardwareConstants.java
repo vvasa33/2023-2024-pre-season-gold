@@ -6,16 +6,17 @@ public class HardwareConstants {
     //TODO take measurements for all physical values
     //motors, drive speeds, lift speeds, claw and servo consts, presets
     //TODO tune these values for the robot
-    public enum LiftStates {
+    public enum LiftPositions {
         GROUND (0),
         SETLINE_1 (1000),
         SETLINE_2 (2000),
         SETLINE_3 (3000),
-        MANUAL (0);
+        MANUAL_UP (500),
+        MANUAL_DOWN (500);
 
         private final int val;
 
-        LiftStates(int val) {
+        LiftPositions(int val) {
             this.val = val;
         }
 
@@ -23,7 +24,16 @@ public class HardwareConstants {
             return val;
         }
     }
-    public static LiftStates currentLiftState = LiftStates.GROUND;
+
+    public static LiftPositions currentLiftPosition = LiftPositions.GROUND;
+
+    public enum LiftStates {
+        WAITING,
+        EXTEND,
+        DEPOSIT,
+        RETRACT;
+    }
+    public static LiftStates currentLiftState = LiftStates.WAITING;
 
     public enum ClawStates {
         OPEN(0),
