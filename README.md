@@ -1,6 +1,6 @@
 FTC Robocavs Gold (#8479) Repository for the 2023-2024 Centerstage Season
 Written by: Visu Vasa
-Team: Visu Vasa (captain + programmer), Michael Shonting (main builder + cad), Jasper Krantz (builder + freshman), Elizabeth Wolff (president + builder), Hayden Winters (vice president + builder)
+Team: Visu Vasa (captain + programmer), Michael Shonting (main builder + cad), Jasper Krantz (builder + freshman), Elizabeth Wolff (president + builder), Hayden Winters (builder)
 Everyone is a senior except for Jasper who is a freshman 
 
 Features:
