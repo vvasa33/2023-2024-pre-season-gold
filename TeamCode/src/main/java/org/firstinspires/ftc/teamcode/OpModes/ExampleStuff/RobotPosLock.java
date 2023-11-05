@@ -1,19 +1,32 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.util.Angle;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+@Config
+@Autonomous
 public class RobotPosLock extends LinearOpMode {
 
-    SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-    double xyP = 1;
-    double headingP = 1;
+    SampleMecanumDrive drive;
+    public static double xyP = 1;
+    public static double headingP = 1;
     public void runOpMode() throws InterruptedException {
-        Pose2d changeThis = new Pose2d(0,0,0);
+        drive = new SampleMecanumDrive(hardwareMap);
+        Pose2d pose = new Pose2d(0,0,0);
+
+        drive.setPoseEstimate(pose);
+        waitForStart();
+
+        while (opModeIsActive()) {
+            lockTo(pose);
+            drive.update();
+        }
     }
 
     public void lockTo(Pose2d targetPos) {

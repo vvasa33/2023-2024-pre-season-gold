@@ -55,6 +55,7 @@ public class ChoosableAutoPractice extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         //here is where we begin the init stage, where we can select our stuff
+        //the issue: the telemetry.update() causes the entire program to stop and it doesnt get into the 
 
          robot = new OpModeHardware(this);
 
