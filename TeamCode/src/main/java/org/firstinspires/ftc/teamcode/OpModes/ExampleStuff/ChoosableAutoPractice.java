@@ -57,6 +57,7 @@ public class ChoosableAutoPractice extends LinearOpMode {
         //here is where we begin the init stage, where we can select our stuff
         //the issue: the telemetry.update() causes the entire program to stop and it doesnt get into the 
 
+
          robot = new OpModeHardware(this);
 
          telemetry.addData("> Choose your own adventure! written by visu vasa: ", "press the button you want to choose where robot go");
@@ -83,6 +84,7 @@ public class ChoosableAutoPractice extends LinearOpMode {
              }
          }
 
+
         telemetry.clearAll();
         telemetry.addData("> Choose your own adventure! written by visu vasa: ", "press the button you want to choose where robot go");
         telemetry.addLine();
@@ -108,6 +110,7 @@ public class ChoosableAutoPractice extends LinearOpMode {
                 secondResponse = StackChoices.RIGHT;
             }
         }
+
         telemetry.clearAll();
         telemetry.addData("> Choose your own adventure! written by visu vasa: ", "press the button you want to choose where robot go");
         telemetry.addLine();
@@ -166,7 +169,7 @@ public class ChoosableAutoPractice extends LinearOpMode {
                 fourthResponse = PassChoices.RIGHT;
             }
         }
-
+        sleep(1);
         telemetry.clearAll();
         telemetry.addData("> Choose your own adventure! written by visu vasa: ", "press the button you want to choose where robot go");
         telemetry.addLine();
@@ -266,17 +269,19 @@ public class ChoosableAutoPractice extends LinearOpMode {
         telemetry.addData("Your fourth choice: ", "Go under the " + fourthResponse.getValue() + " NEXT");
         telemetry.addData("Your fifth choice: ", "Go to the " + fifthResponse.getValue() + " NEXT");
         telemetry.addData("Your sixth choice: ", "Go under the " + sixthResponse.getValue() + " NEXT");
-        telemetry.addData("Your seventh choice: ", lastResponse.getValue());
+        telemetry.addData("Your seventh choice: ", "lastResponse.getValue()");
 
         telemetry.addLine();
         telemetry.addData("Is this all good? ", "Press A to confirm");
 
-        boolean confirmation = false;
-        while (!confirmation) {
+        boolean confirm = false;
+
+        while (!confirm) {
             if (gamepad1.a) {
-                confirmation = true;
+                confirm = true;
             }
         }
+
 
         telemetry.clearAll();
         telemetry.addLine("> Initialization sequence done. Press start to play...");
