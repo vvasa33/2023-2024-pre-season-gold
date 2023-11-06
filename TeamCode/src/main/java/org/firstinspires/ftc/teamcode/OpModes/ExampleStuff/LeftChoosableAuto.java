@@ -1,51 +1,21 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp (name="WorkingChoosableAuto")
-public class NewNewChoosableAutoPractice extends LinearOpMode {
+public class LeftChoosableAuto extends LinearOpMode {
     SampleMecanumDrive drive;
     GamepadEx gamepad;
 
-    enum PassChoices {
-        MIDDLE ("MIDDLE Truss"),
-        RIGHT ("RIGHT Truss");
 
-        public final String val;
-
-        PassChoices (String val) {this.val = val;}
-
-        public String getValue() {return val;}
-    }
-
-    enum StackChoices {
-        LEFT ("LEFT Stack"),
-        MIDDLE ("MIDDLE Stack"),
-        RIGHT ("RIGHT Stack");
-
-        public final String val;
-
-        StackChoices (String val) {this.val = val;}
-
-        public String getValue() {return val;}
-    }
-
-    enum ParkChoices {
-        LEFT ("Left Park"),
-        RIGHT ("Right Park");
-
-        public final String val;
-
-        ParkChoices (String val) {this.val = val;}
-
-        public String getValue() {return val;}
-    }
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -63,15 +33,19 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("A", "MIDDLE TRUSS");
             telemetry.addData("B", "RIGHT TRUSS");
             telemetry.update();
-            PassChoices firstResponse = null;
-            Trajectory firstPassToPixel;
+            HardwareConstants.PassChoices firstResponse = null;
+            Trajectory firstPassToPixel = null;
             while (firstResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-                    firstResponse = PassChoices.MIDDLE;
+                    firstResponse = HardwareConstants.PassChoices.MIDDLE;
+                    //TODO give each of the if statements their respective values
+                    firstPassToPixel = drive.trajectoryBuilder(new Pose2d(0,0,0))
+                            .lineToLinearHeading(new Pose2d(0,0,0))
+                            .build();
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    firstResponse = PassChoices.RIGHT;
+                    firstResponse = HardwareConstants.PassChoices.RIGHT;
                 }
             }
 
@@ -85,17 +59,17 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("A: ", "MIDDLE stack");
             telemetry.addData("B: ", "RIGHT stack");
             telemetry.update();
-            StackChoices secondResponse = null;
-            Trajectory firstStackPickup;
+            HardwareConstants.StackChoices secondResponse = null;
+            Trajectory firstStackPickup = null;
             while (secondResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-                    secondResponse = StackChoices.MIDDLE;
+                    secondResponse = HardwareConstants.StackChoices.MIDDLE;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    secondResponse = StackChoices.RIGHT;
+                    secondResponse = HardwareConstants.StackChoices.RIGHT;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.X)) {
-                    secondResponse = StackChoices.LEFT;
+                    secondResponse = HardwareConstants.StackChoices.LEFT;
                 }
             }
 
@@ -112,15 +86,15 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("B: ", "RIGHT TRUSS");
             telemetry.update();
 
-            PassChoices thirdResponse = null;
-            Trajectory firstPassToScore;
+            HardwareConstants.PassChoices thirdResponse = null;
+            Trajectory firstPassToScore = null;
             while (thirdResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-                    thirdResponse = PassChoices.MIDDLE;
+                    thirdResponse = HardwareConstants.PassChoices.MIDDLE;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    thirdResponse = PassChoices.RIGHT;
+                    thirdResponse = HardwareConstants.PassChoices.RIGHT;
                 }
             }
 
@@ -138,15 +112,15 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("B: ", "RIGHT TRUSS");
             telemetry.update();
 
-            PassChoices fourthResponse = null;
-            Trajectory secondPassToPixel;
+            HardwareConstants.PassChoices fourthResponse = null;
+            Trajectory secondPassToPixel = null;
             while (fourthResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-                    fourthResponse = PassChoices.MIDDLE;
+                    fourthResponse = HardwareConstants.PassChoices.MIDDLE;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    fourthResponse = PassChoices.RIGHT;
+                    fourthResponse = HardwareConstants.PassChoices.RIGHT;
                 }
             }
 
@@ -165,17 +139,17 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("B: ", "RIGHT STACK");
             telemetry.update();
 
-            StackChoices fifthResponse = null;
-            Trajectory secondStackPickup;
+            HardwareConstants.StackChoices fifthResponse = null;
+            Trajectory secondStackPickup = null;
             while (fifthResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-                    fifthResponse = StackChoices.MIDDLE;
+                    fifthResponse = HardwareConstants.StackChoices.MIDDLE;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    fifthResponse = StackChoices.RIGHT;
+                    fifthResponse = HardwareConstants.StackChoices.RIGHT;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.X)) {
-                    fifthResponse = StackChoices.LEFT;
+                    fifthResponse = HardwareConstants.StackChoices.LEFT;
                 }
             }
 
@@ -195,15 +169,15 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("B: ", "RIGHT TRUSS");
             telemetry.update();
 
-            PassChoices sixthResponse = null;
-            Trajectory secondPassToScore;
+            HardwareConstants.PassChoices sixthResponse = null;
+            Trajectory secondPassToScore = null;
             while (sixthResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
-                    sixthResponse = PassChoices.MIDDLE;
+                    sixthResponse = HardwareConstants.PassChoices.MIDDLE;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    sixthResponse = PassChoices.RIGHT;
+                    sixthResponse = HardwareConstants.PassChoices.RIGHT;
                 }
             }
 
@@ -223,15 +197,15 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
             telemetry.addData("B: ", "Right of the Backdrop");
             telemetry.update();
 
-            ParkChoices lastResponse = null;
-            Trajectory parkingSpot;
+            HardwareConstants.ParkChoices lastResponse = null;
+            Trajectory parkingSpot = null;
             while (lastResponse == null) {
                 gamepad.readButtons();
 
                 if (gamepad.wasJustPressed(GamepadKeys.Button.X)) {
-                    lastResponse = ParkChoices.LEFT;
+                    lastResponse = HardwareConstants.ParkChoices.LEFT;
                 } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
-                    lastResponse = ParkChoices.RIGHT;
+                    lastResponse = HardwareConstants.ParkChoices.RIGHT;
                 }
             }
 
@@ -259,11 +233,17 @@ public class NewNewChoosableAutoPractice extends LinearOpMode {
                 }
             }
 
+            //This is where everything is saved
+            LocalizationStorageCloser.firstPassToPixel = firstPassToPixel;
+
+
+
+
             telemetry.clearAll();
-            telemetry.addLine("> Saved to file. Sending you to the auto selection...");
+            telemetry.addLine("> Saved to file. Ready to go...");
             telemetry.update();
 
-            sleep(5);
+            sleep(5000);
 
             return;
         }

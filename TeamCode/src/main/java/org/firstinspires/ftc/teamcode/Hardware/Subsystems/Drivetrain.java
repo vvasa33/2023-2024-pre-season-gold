@@ -4,11 +4,9 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.OpModes.ExampleStuff.PoseStorage;
+import org.firstinspires.ftc.teamcode.OpModes.ExampleStuff.LocalizationStorageCloser;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 public class Drivetrain extends SampleMecanumDrive {
@@ -17,7 +15,7 @@ public class Drivetrain extends SampleMecanumDrive {
     public Drivetrain(HardwareMap hardwareMap, LinearOpMode opMode) {
         super(hardwareMap);
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        setPoseEstimate(PoseStorage.currentPose);
+        setPoseEstimate(LocalizationStorageCloser.currentPose);
         this.opMode = opMode;
     }
 

@@ -3,6 +3,40 @@ package org.firstinspires.ftc.teamcode.Hardware;
 public class HardwareConstants {
     private HardwareConstants() {}
 
+    public enum PassChoices {
+        MIDDLE ("MIDDLE Truss"),
+        RIGHT ("RIGHT Truss");
+
+        public final String val;
+
+        PassChoices (String val) {this.val = val;}
+
+        public String getValue() {return val;}
+    }
+
+    public enum StackChoices {
+        LEFT ("LEFT Stack"),
+        MIDDLE ("MIDDLE Stack"),
+        RIGHT ("RIGHT Stack");
+
+        public final String val;
+
+        StackChoices (String val) {this.val = val;}
+
+        public String getValue() {return val;}
+    }
+
+    public enum ParkChoices {
+        LEFT ("Left Park"),
+        RIGHT ("Right Park");
+
+        public final String val;
+
+        ParkChoices (String val) {this.val = val;}
+
+        public String getValue() {return val;}
+    }
+
     //TODO take measurements for all physical values
     //motors, drive speeds, lift speeds, claw and servo consts, presets
     //TODO tune these values for the robot
