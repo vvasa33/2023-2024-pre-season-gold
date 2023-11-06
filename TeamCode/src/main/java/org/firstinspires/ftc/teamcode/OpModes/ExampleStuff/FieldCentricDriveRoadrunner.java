@@ -15,7 +15,7 @@ public class FieldCentricDriveRoadrunner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        drive.setPoseEstimate(LocalizationStorageCloser.currentPose);
+        drive.setPoseEstimate(LocalizationStorageCloser.poseIntoTeleOp);
 
         waitForStart();
 
