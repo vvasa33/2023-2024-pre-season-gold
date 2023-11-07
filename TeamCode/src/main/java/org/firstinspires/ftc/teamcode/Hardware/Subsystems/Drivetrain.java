@@ -15,7 +15,7 @@ public class Drivetrain extends SampleMecanumDrive {
     public Drivetrain(HardwareMap hardwareMap, LinearOpMode opMode) {
         super(hardwareMap);
         setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        setPoseEstimate(LocalizationStorageCloser.currentPose);
+        setPoseEstimate(LocalizationStorageCloser.poseIntoTeleOp);
         this.opMode = opMode;
     }
 

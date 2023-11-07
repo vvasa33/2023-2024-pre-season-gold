@@ -6,6 +6,8 @@ import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
+import java.util.Vector;
+
 public class MeepMeepTesting {
 
     public static void main(String args[]) {
@@ -15,11 +17,14 @@ public class MeepMeepTesting {
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 14.65)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(6.2, 62.7, Math.toRadians(270)))
-                                .lineToLinearHeading(new Pose2d(45, 35.3, 0))
-                                .splineToLinearHeading(new Pose2d(13.9,58.7, Math.toRadians(180)), Math.toRadians(180))
-                                .splineTo(new Vector2d(-35.8, 58.9), Math.toRadians(180))
-                                .splineTo(new Vector2d(-61, 35.8), Math.toRadians(180))
+                        drive.trajectorySequenceBuilder(new Pose2d(6.2, 62.7, Math.toRadians(90)))
+                                .lineTo(new Vector2d(22.7,41.6)) //go to the left spike mark
+                                .splineToLinearHeading(new Pose2d(49,41.4, Math.toRadians(180)), Math.toRadians(0)) //go to the left backdrop
+                                .splineTo(new Vector2d(10,10), Math.toRadians(180)) //go to the beginning of the stage door
+                                .splineTo(new Vector2d(-35.6, 10), Math.toRadians(180)) //go through the door
+                                .splineTo(new Vector2d(-58, 11.8), Math.toRadians(180)) //go to the left pixel stack
+                                .splineToLinearHeading(new Pose2d(10, 10, 0), Math.toRadians(0)) //go back
+
                                 .build()
                 );
 
