@@ -4,8 +4,8 @@ public class HardwareConstants {
     private HardwareConstants() {}
 
     public enum PassChoices {
-        MIDDLE ("MIDDLE Truss"),
-        RIGHT ("RIGHT Truss");
+        DOOR ("Backstage DOOR"),
+        TRUSS ("Truss");
 
         public final String val;
 
@@ -33,6 +33,19 @@ public class HardwareConstants {
         public final String val;
 
         ParkChoices (String val) {this.val = val;}
+
+        public String getValue() {return val;}
+    }
+
+    public enum ScoreChoices {
+        LEFT ("LEFT Side"),
+        MIDDLE ("MIDDLE Side"),
+        RIGHT ("RIGHT Side"),
+        AUTOSELECT ("Autoselected");
+
+        public final String val;
+
+        ScoreChoices (String val) {this.val = val;}
 
         public String getValue() {return val;}
     }
