@@ -7,17 +7,21 @@ import com.arcrobotics.ftclib.gamepad.GamepadKeys;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
+
 @TeleOp (name="LocalizationStorage")
 public class LocalizationStorageCloser extends LinearOpMode {
     public static Pose2d poseIntoTeleOp = new Pose2d();
 
-    public static Trajectory firstPassToPixel = null;
-    public static Trajectory firstStackPickup = null;
-    public static Trajectory firstPassToScore = null;
-    public static Trajectory secondPassToPixel = null;
-    public static Trajectory secondStackPickup = null;
-    public static Trajectory secondPassToScore = null;
-    public static Trajectory parkingSpot = null;
+    public static HardwareConstants.PassChoices firstPassToPixel = null;
+    public static HardwareConstants.StackChoices firstPixelStack = null;
+    public static HardwareConstants.PassChoices firstPassToScore = null;
+    public static HardwareConstants.ScoreChoices firstCycleScore = null;
+    public static HardwareConstants.PassChoices secondPassToPixel = null;
+    public static HardwareConstants.StackChoices secondPixelStack = null;
+    public static HardwareConstants.PassChoices secondPassToScore = null;
+    public static HardwareConstants.ScoreChoices secondCycleScore = null;
+    public static HardwareConstants.ParkChoices parking = null;
 
     GamepadEx gamepad;
 
@@ -58,12 +62,6 @@ public class LocalizationStorageCloser extends LinearOpMode {
     public void clearTrajectories() {
         poseIntoTeleOp = new Pose2d();
 
-        firstPassToPixel = null;
-        firstStackPickup = null;
-        firstPassToScore = null;
-        secondPassToPixel = null;
-        secondStackPickup = null;
-        secondPassToScore = null;
-        parkingSpot = null;
+
     }
 }

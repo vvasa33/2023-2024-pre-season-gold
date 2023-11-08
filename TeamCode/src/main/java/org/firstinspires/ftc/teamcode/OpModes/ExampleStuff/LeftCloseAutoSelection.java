@@ -264,7 +264,20 @@ public class LeftCloseAutoSelection extends LinearOpMode {
                 }
             }
 
-            //TODO save everything here
+
+            LocalizationStorageCloser.firstPassToPixel = firstResponse;
+            LocalizationStorageCloser.firstPixelStack = secondResponse;
+            LocalizationStorageCloser.firstPassToScore = thirdResponse;
+            LocalizationStorageCloser.firstCycleScore = fourthResponse;
+            LocalizationStorageCloser.secondPassToPixel = fifthResponse;
+            LocalizationStorageCloser.secondPixelStack = sixthResponse;
+            LocalizationStorageCloser.secondPassToScore = seventhResponse;
+            LocalizationStorageCloser.secondCycleScore = eighthResponse;
+            LocalizationStorageCloser.parking = lastResponse;
+
+            telemetry.clearAll();
+            telemetry.addLine("> The CLOSE Auto has been chosen. Ending the opmode...");
+            return;
         }
     }
 }
