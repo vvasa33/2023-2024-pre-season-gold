@@ -13,9 +13,9 @@ import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 public class LocalizationStorageCloser extends LinearOpMode {
     public static Pose2d poseIntoTeleOp = new Pose2d();
 
-    public static HardwareConstants.PassChoices firstPassToPixel = null;
-    public static HardwareConstants.StackChoices firstPixelStack = null;
-    public static HardwareConstants.PassChoices firstPassToScore = null;
+    public static HardwareConstants.PassChoices firstPassToPixel = null; //
+    public static HardwareConstants.StackChoices firstPixelStack = null; //
+    public static HardwareConstants.PassChoices firstPassToScore = null; //
     public static HardwareConstants.ScoreChoices firstCycleScore = null;
     public static HardwareConstants.PassChoices secondPassToPixel = null;
     public static HardwareConstants.StackChoices secondPixelStack = null;
@@ -62,6 +62,14 @@ public class LocalizationStorageCloser extends LinearOpMode {
     public void clearTrajectories() {
         poseIntoTeleOp = new Pose2d();
 
-
+        firstPassToPixel = null;
+        firstPixelStack = null;
+        firstPassToScore = null;
+        firstCycleScore = null;
+        secondPassToPixel = null;
+        secondPixelStack = null;
+        secondPassToScore = null;
+        secondCycleScore = null;
+        parking = null;
     }
 }
