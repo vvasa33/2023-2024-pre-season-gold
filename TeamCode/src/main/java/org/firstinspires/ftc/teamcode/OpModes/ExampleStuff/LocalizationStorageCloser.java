@@ -35,7 +35,7 @@ public class LocalizationStorageCloser extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             telemetry.clearAll();
-            telemetry.addLine("You currently " + ((isCleared) ? "DO NOT" : "DO") + " have Trajectories planned.");
+            telemetry.addLine("You currently " + ((parking == null) ? "DO NOT" : "DO") + " have Trajectories planned.");
             telemetry.addLine();
             telemetry.addLine("Press A to clear trajectories!");
 
@@ -44,12 +44,15 @@ public class LocalizationStorageCloser extends LinearOpMode {
             if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
                 telemetry.clearAll();
                 telemetry.addLine("Are you sure you would like to clear trajectories? Press A to confirm. Press B to go back");
+                telemetry.update();
                 boolean confirm = false;
 
                 while (!confirm) {
                     if (gamepad.wasJustPressed(GamepadKeys.Button.A)) {
                         clearTrajectories();
+                        telemetry.clearAll();
                         telemetry.addLine("Cleared Trajectories");
+                        telemetry.update();
                         confirm = true;
                     } else if (gamepad.wasJustPressed(GamepadKeys.Button.B)) {
                         break;
