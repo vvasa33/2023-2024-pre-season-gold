@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.opencv.core.Mat;
 
 import java.lang.invoke.VolatileCallSite;
@@ -228,22 +229,27 @@ public class ChoosableAutoExample extends LinearOpMode {
         telemetry.addLine("> Initialized. Press Start to play...");
         telemetry.update();
 
+        TrajectorySequence autonomousSequence = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
+                        .addTrajectory(visionScorer)
+                        .addTrajectory(lineUpToPass)
+                        .addTrajectory(firstPassToPixel)
+                        .addTrajectory(firstPixelStack)
+                        .addTrajectory(lineUpToGoBackFirstPass)
+                        .addTrajectory(firstPassToScore)
+                        .addTrajectory(firstCycleScore)
+                        .addTrajectory(firstCycleScoreAlign)
+                        .addTrajectory(secondPassToPixel)
+
+                        .addTrajectory(secondPixelStack)
+                        .addTrajectory(secondLineUpToGoBackSecondPass)
+                        .addTrajectory(secondPassToScore)
+                        .addTrajectory(secondCycleScore)
+                        .addTrajectory(parking)
+                                .build();
+
         waitForStart();
 
-        drive.followTrajectory(visionScorer);
-        drive.followTrajectory(lineUpToPass);
-        drive.followTrajectory(firstPassToPixel);
-        drive.followTrajectory(firstPixelStack);
-        drive.followTrajectory(lineUpToGoBackFirstPass);
-        drive.followTrajectory(firstPassToScore);
-        drive.followTrajectory(firstCycleScore);
-        drive.followTrajectory(firstCycleScoreAlign);
-        drive.followTrajectory(secondPassToPixel);
-        drive.followTrajectory(secondPixelStack);
-        drive.followTrajectory(secondLineUpToGoBackSecondPass);
-        drive.followTrajectory(secondPassToScore);
-        drive.followTrajectory(secondCycleScore);
-        drive.followTrajectory(parking);
+        drive.followTrajectorySequence(autonomousSequence);
 
     }
 }
