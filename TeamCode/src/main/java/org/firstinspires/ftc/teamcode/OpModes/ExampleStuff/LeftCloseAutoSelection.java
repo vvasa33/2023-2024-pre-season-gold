@@ -277,6 +277,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
 
             telemetry.clearAll();
             telemetry.addLine("> The CLOSE Auto has been chosen. Ending the opmode...");
+            wait(5);
             return;
         }
     }

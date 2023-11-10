@@ -239,7 +239,6 @@ public class ChoosableAutoExample extends LinearOpMode {
                         .addTrajectory(firstCycleScore)
                         .addTrajectory(firstCycleScoreAlign)
                         .addTrajectory(secondPassToPixel)
-
                         .addTrajectory(secondPixelStack)
                         .addTrajectory(secondLineUpToGoBackSecondPass)
                         .addTrajectory(secondPassToScore)
