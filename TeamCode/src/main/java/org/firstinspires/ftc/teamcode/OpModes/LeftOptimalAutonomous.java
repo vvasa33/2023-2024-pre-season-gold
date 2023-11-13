@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
+import java.util.Vector;
+
 
 @Autonomous (name="LeftOptimalAutonomous", group="OptimalAutos")
 public class LeftOptimalAutonomous extends LinearOpMode {
@@ -19,18 +21,21 @@ public class LeftOptimalAutonomous extends LinearOpMode {
         drive.setPoseEstimate(new Pose2d((14.65/2) + 2, 62.7, Math.toRadians(90)));
 
         //TODO vision code these are stand-ins
-        Trajectory visionScorer = drive.trajectoryBuilder(drive.getPoseEstimate())
+//        Trajectory visionScorer = drive.trajectoryBuilder(drive.getPoseEstimate())
+//                .lineTo(new Vector2d(22.7, 46.4))
+//                .splineToLinearHeading(new Pose2d(47.1, 41.1, Math.toRadians(180)), Math.toRadians(0))
+//                .build();
+//        Trajectory lineUpToPass = drive.trajectoryBuilder(visionScorer.end())
+//                .lineTo(new Vector2d(46,41.1))
+//                .build();
+        TrajectorySequence visionScorer = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
                 .lineTo(new Vector2d(22.7, 46.4))
                 .splineToLinearHeading(new Pose2d(47.1, 41.1, Math.toRadians(180)), Math.toRadians(0))
-                .build();
-        Trajectory lineUpToPass = drive.trajectoryBuilder(visionScorer.end())
-                .lineTo(new Vector2d(46,41.1))
+                .lineTo(new Vector2d(46, 41.1))
                 .build();
 
-        TrajectorySequence optimalAutoSequence = drive.trajectorySequenceBuilder(drive.getPoseEstimate())
-                .addTrajectory(visionScorer)
-                .waitSeconds(0.5)
-                .addTrajectory(lineUpToPass)
+
+        TrajectorySequence optimalAutoSequence = drive.trajectorySequenceBuilder(visionScorer.end())
                 //THIS REPEATS (START)
                 .splineTo(new Vector2d(10,10), Math.toRadians(180))
                 .splineTo(new Vector2d(-36.3, 10), Math.toRadians(180))
@@ -70,6 +75,7 @@ public class LeftOptimalAutonomous extends LinearOpMode {
                 telemetry.update();
 
                 waitForStart();
+                drive.followTrajectorySequence(visionScorer);
                 drive.followTrajectorySequence(optimalAutoSequence);
     }
 }
