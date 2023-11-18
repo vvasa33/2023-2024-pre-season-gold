@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.outoftheboxrobotics.photoncore.PhotonCore;
+//import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -25,11 +25,11 @@ public class AutoScoreExample extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        PhotonCore.experimental.setMaximumParallelCommands(7);
-        PhotonCore.start(hardwareMap);
+        ///PhotonCore.experimental.setMaximumParallelCommands(7);
+        //PhotonCore.start(hardwareMap);
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        drive.setPoseEstimate(new Pose2d(14.65/2 + 1, 62.7, Math.toRadians(90)));
+        drive.setPoseEstimate(new Pose2d(14.65 / 2 + 1, 62.7, Math.toRadians(90)));
 
         waitForStart();
 

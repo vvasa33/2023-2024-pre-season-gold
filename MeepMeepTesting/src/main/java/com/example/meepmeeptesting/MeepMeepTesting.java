@@ -66,28 +66,28 @@ public class MeepMeepTesting {
                                 //.lineTo(new Vector2d(46, 34.7)) //middle to align
                                 .lineTo(new Vector2d(46, 28.4)) //right to align
 
-                                //.splineTo(new Vector2d(10,10), Math.toRadians(180)) //align with the backstage door
-                                //.splineTo(new Vector2d(-36.3, 10), Math.toRadians(180)) //go through door
+                                .splineTo(new Vector2d(10,10), Math.toRadians(180)) //align with the backstage door
+                                .splineTo(new Vector2d(-36.3, 10), Math.toRadians(180)) //go through door
 
-                                .splineTo(new Vector2d(11,59.6), Math.toRadians(180)) //align with the truss
-                                .splineTo(new Vector2d(-36,59.6), Math.toRadians(180)) //go through the truss
+                                //.splineTo(new Vector2d(11,59.6), Math.toRadians(180)) //align with the truss
+                                //.splineTo(new Vector2d(-36,59.6), Math.toRadians(180)) //go through the truss
 
-                                //.splineTo(new Vector2d(-58, 11.8), Math.toRadians(180)) //go to left pixel stack
+                                .splineTo(new Vector2d(-58, 11.8), Math.toRadians(180)) //go to left pixel stack
                                 //.splineTo(new Vector2d(-58, 23.8), Math.toRadians(180)) //go to middle pixel stack
-                                .splineTo(new Vector2d(-58, 35.6), Math.toRadians(180)) //go to right pixel stack
+                                //.splineTo(new Vector2d(-58, 35.6), Math.toRadians(180)) //go to right pixel stack
                                 .waitSeconds(0.5)
 
                                 //NOW WE GO BACK
 
-                                //.lineTo(new Vector2d(-56, 11.8)) //go back a little from the left pixel stack
+                                .lineTo(new Vector2d(-56, 11.8)) //go back a little from the left pixel stack
                                 //.lineTo(new Vector2d(-56, 23.8)) //go back a little from the middle pixel stack
-                                .lineTo(new Vector2d(-56, 35.6)) //go back a little from the right pixel stack
+                                //.lineTo(new Vector2d(-56, 35.6)) //go back a little from the right pixel stack
 
-                                //.splineTo(new Vector2d(-36.3,10), Math.toRadians(0)) //line up with the backstage door
-                                //.splineTo(new Vector2d(10,10), Math.toRadians(0)) //go through
+                                .splineTo(new Vector2d(-36.3,10), Math.toRadians(0)) //line up with the backstage door
+                                .splineTo(new Vector2d(10,10), Math.toRadians(0)) //go through
 
-                                .splineTo(new Vector2d(-36,59.6), Math.toRadians(0)) //go through the truss
-                                .splineTo(new Vector2d(11,59.6), Math.toRadians(0)) //align with the truss
+                                //.splineTo(new Vector2d(-36,59.6), Math.toRadians(0)) //go through the truss
+                                //.splineTo(new Vector2d(11,59.6), Math.toRadians(0)) //align with the truss
 
                                 //.splineToLinearHeading(new Pose2d(47.1, 41.1, Math.toRadians(180)), Math.toRadians(0)) //board spot left
                                 //.splineToLinearHeading(new Pose2d(47.1, 34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle

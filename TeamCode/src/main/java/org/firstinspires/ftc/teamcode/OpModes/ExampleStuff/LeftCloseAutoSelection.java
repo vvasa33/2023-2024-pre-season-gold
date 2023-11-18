@@ -19,6 +19,8 @@ public class LeftCloseAutoSelection extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
         gamepad = new GamepadEx(gamepad1);
 
+        waitForStart();
+
         while (opModeIsActive() && !isStopRequested()) {
 
             telemetry.addLine("Choose your Auto!");
@@ -96,6 +98,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
             telemetry.addData("A", "MIDDLE side");
             telemetry.addData("B", "RIGHT side");
             telemetry.addData("Y", "Autoselect");
+            telemetry.update();
 
             HardwareConstants.ScoreChoices fourthResponse = null;
             while (fourthResponse == null) {
@@ -122,6 +125,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
             telemetry.addLine();
             telemetry.addData("X", "DOOR");
             telemetry.addData("B", "TRUSS");
+            telemetry.update();
 
             HardwareConstants.PassChoices fifthResponse = null;
             while (fifthResponse == null) {
@@ -171,6 +175,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
             telemetry.addLine();
             telemetry.addData("X", "DOOR");
             telemetry.addData("B", "TRUSS");
+            telemetry.update();
 
             HardwareConstants.PassChoices seventhResponse = null;
             while (seventhResponse == null) {
@@ -198,7 +203,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
             telemetry.addData("A", "MIDDLE side");
             telemetry.addData("B", "RIGHT side");
             telemetry.addData("Y", "Autoselect");
-
+            telemetry.update();
             HardwareConstants.ScoreChoices eighthResponse = null;
             while (eighthResponse == null) {
                 gamepad.readButtons();
@@ -228,6 +233,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
             telemetry.addLine();
             telemetry.addData("X", "Left");
             telemetry.addData("B", "Right");
+            telemetry.update();
 
             HardwareConstants.ParkChoices lastResponse = null;
             while (lastResponse == null) {

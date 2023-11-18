@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class BasicHardware {
 
-    public static final String name = "Base";
+    public static final String name = "dyson vacuum cleaner";
 
     protected LinearOpMode opMode;
     public ElapsedTime timer;
