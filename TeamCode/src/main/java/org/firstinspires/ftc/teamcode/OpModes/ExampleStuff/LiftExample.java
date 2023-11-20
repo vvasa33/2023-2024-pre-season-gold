@@ -1,22 +1,30 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
+import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(name="LiftExample")
 public class LiftExample extends LinearOpMode {
     SampleMecanumDrive drive;
-
+    PIDFController liftController;
     DcMotorEx lift;
 
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
         lift = hardwareMap.get(DcMotorEx.class, "lift");
+        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        liftController = new PIDFController(0,0,0,0);
 
         waitForStart();
 
@@ -40,12 +48,14 @@ public class LiftExample extends LinearOpMode {
                 lift.setPower(0);
             }
 
-//            if (gamepad1.start) {
-//                for (int i = 0; i < 10000000; i++) {
-//                    telemetry.addData("amogus", "amogus");
-//                }
-//                telemetry.update();
+
+//            if (gamepad1.b) {
+//                lift.setPower(liftController.calculate(lift.getCurrentPosition(), 500));
 //            }
+
+
+            telemetry.addData("Motor position", lift.getCurrentPosition());
+            telemetry.update();
         }
     }
 }
