@@ -27,7 +27,8 @@ public class AlignToPointExample extends LinearOpMode {
         drive = new SampleMecanumDrive(hardwareMap);
 
         drive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        drive.setPoseEstimate(new Pose2d(14.65/2, 62.7, Math.toRadians(90)));
+        drive.setPoseEstimate(new Pose2d((14.65/2) + 1, 62.7, Math.toRadians(90)));
+        headingController.setInputBounds(-Math.PI, Math.PI);
 
         waitForStart();
 
@@ -46,8 +47,8 @@ public class AlignToPointExample extends LinearOpMode {
                     }
                     drive.setWeightedDrivePower(
                             new Pose2d(
-                                    -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 0.3 : 1),
-                                    -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 0.3 : 1),
+                                    -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3 : 1),
+                                    -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3 : 1),
                                     -gamepad1.right_stick_x
                             )
                     );
