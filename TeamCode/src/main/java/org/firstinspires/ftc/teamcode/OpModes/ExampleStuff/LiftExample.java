@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.controller.PIDController;
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,48 +16,43 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(name="LiftExample")
 public class LiftExample extends LinearOpMode {
-    SampleMecanumDrive drive;
-    PIDFController liftController;
+    //SampleMecanumDrive drive;
+
+
+    public static double p = 0, i = 0, d = 0;
+    public static double f = 0;
+    PIDController liftController;
+    public static double ff;
+    public static int target = 0;
+
+    public double ticks_per_degree = 384.5;
     DcMotorEx lift;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new SampleMecanumDrive(hardwareMap);
+        //drive = new SampleMecanumDrive(hardwareMap);
         lift = hardwareMap.get(DcMotorEx.class, "lift");
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        liftController = new PIDFController(0,0,0,0);
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
+
+        liftController = new PIDController(p,i,d);
+
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
-                    )
-            );
 
-            drive.update();
+            liftController.setPID(p,i,d);
+            int liftPos = lift.getCurrentPosition();
+            double pid = liftController.calculate(liftPos, target);
+            double ff = Math.cos(Math.toRadians(target / ticks_per_degree)) * f;
 
+            lift.setPower(pid + ff);
 
-            if (gamepad1.left_bumper) {
-                lift.setPower(0.4);
-            } else if (gamepad1.right_bumper) {
-                lift.setPower(-0.4);
-            } else {
-                lift.setPower(0);
-            }
-
-
-//            if (gamepad1.b) {
-//                lift.setPower(liftController.calculate(lift.getCurrentPosition(), 500));
-//            }
 
 
             telemetry.addData("Motor position", lift.getCurrentPosition());
+            telemetry.addData("Target position", target);
             telemetry.update();
         }
     }
