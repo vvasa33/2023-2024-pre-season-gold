@@ -66,22 +66,22 @@ public class AlignToPointExample extends LinearOpMode {
 
                     // Difference between the target vector and the bot's position
                     Vector2d difference = targetPosition.minus(poseEstimate.vec());
-                    // Obtain the target angle for feedback and derivative for feedforward
+                    // obtain target angle for feedback and derivative for feedforward
                     double theta = difference.angle();
 
-                    // Not technically omega because its power. This is the derivative of atan2
+                    // not technically omega because its power the derivative of atan2
                     double thetaFF = -fieldFrameInput.rotated(-Math.PI / 2).dot(difference) / (difference.norm() * difference.norm());
 
                     // Set the target heading for the heading controller to our desired angle
                     headingController.setTargetPosition(theta);
 
-                    // Set desired angular velocity to the heading controller output + angular
+                    // set desired angular velocity to the heading controller output + angular
                     // velocity feedforward
                     double headingInput = (headingController.update(poseEstimate.getHeading())
                             * DriveConstants.kV + thetaFF)
                             * DriveConstants.TRACK_WIDTH;
 
-                    // Combine the field centric x/y velocity with our derived angular velocity
+                    // combine the field centric x/y velocity with our derived angular velocity
 
                     drive.setWeightedDrivePower(
                             new Pose2d(
