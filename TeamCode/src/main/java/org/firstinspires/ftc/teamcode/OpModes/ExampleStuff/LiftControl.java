@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.outoftheboxrobotics.photoncore.PhotonCore;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -38,6 +39,9 @@ public class LiftControl extends LinearOpMode {
         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.WAITING;
 
         drive = new SampleMecanumDrive(hardwareMap);
+
+        PhotonCore.start(hardwareMap);
+        PhotonCore.experimental.setMaximumParallelCommands(6);
 
         waitForStart();
 
