@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -14,6 +15,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
+@Config
 @TeleOp(name="LiftExample")
 public class LiftExample extends LinearOpMode {
     //SampleMecanumDrive drive;
@@ -45,7 +47,7 @@ public class LiftExample extends LinearOpMode {
             liftController.setPID(p,i,d);
             int liftPos = lift.getCurrentPosition();
             double pid = liftController.calculate(liftPos, target);
-            double ff = Math.cos(Math.toRadians(target / ticks_per_degree)) * f;
+            ff = Math.cos(Math.toRadians(target / ticks_per_degree)) * f;
 
             lift.setPower(pid + ff);
 

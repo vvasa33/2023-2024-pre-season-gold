@@ -72,6 +72,7 @@ public class HardwareConstants {
         }
     }
 
+    //NOT ACTUALLY NEEDED
     public static LiftPositions currentLiftPosition = LiftPositions.GROUND;
 
     public enum LiftStates {
@@ -101,6 +102,8 @@ public class HardwareConstants {
     public static final double liftSpeed = 0.5;
     public static final double slowLiftSpeed = 0.3;
     public static final double noLiftSpeed = 0.0;
+
+    public static final int threshold = 1000;
 
     //
 
