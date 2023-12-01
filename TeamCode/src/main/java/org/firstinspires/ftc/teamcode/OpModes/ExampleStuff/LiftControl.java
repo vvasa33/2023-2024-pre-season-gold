@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 
 public class LiftControl extends LinearOpMode {
@@ -17,6 +19,7 @@ public class LiftControl extends LinearOpMode {
 
     public int target;
     public final double ticks_per_degree = 384.5;
+    SampleMecanumDrive drive;
 
 
 
@@ -30,6 +33,8 @@ public class LiftControl extends LinearOpMode {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //HardwareConstants.currentLiftPosition = HardwareConstants.LiftPositions.GROUND;
         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.WAITING;
+
+        drive = new SampleMecanumDrive(hardwareMap);
 
         waitForStart();
 
@@ -87,6 +92,21 @@ public class LiftControl extends LinearOpMode {
                     }
                     break;
             }
+
+            drive.setWeightedDrivePower(
+                    new Pose2d(
+                            -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3 : 1),
+                            -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3 : 1),
+                            -gamepad1.right_stick_x
+                    )
+            );
+
+            drive.update();
+
+            telemetry.addData("Lift Position", HardwareConstants.currentLiftPosition);
+            telemetry.addData("Lift State", HardwareConstants.currentLiftState);
+            telemetry.update();
+
         }
     }
 }

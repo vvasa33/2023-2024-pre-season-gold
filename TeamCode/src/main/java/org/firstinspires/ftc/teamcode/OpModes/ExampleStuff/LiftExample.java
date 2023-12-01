@@ -51,8 +51,6 @@ public class LiftExample extends LinearOpMode {
 
             lift.setPower(pid + ff);
 
-
-
             telemetry.addData("Motor position", lift.getCurrentPosition());
             telemetry.addData("Target position", target);
             telemetry.update();
