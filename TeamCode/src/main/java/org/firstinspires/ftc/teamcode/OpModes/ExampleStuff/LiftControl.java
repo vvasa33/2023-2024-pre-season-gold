@@ -85,6 +85,7 @@ public class LiftControl extends LinearOpMode {
                     }
 
                     if (HardwareConstants.currentRightClawState == HardwareConstants.ClawStates.OPEN && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.OPEN) {
+                        sleep(200); //wait a little bit so that the
                         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.RETRACT;
                     }
 
