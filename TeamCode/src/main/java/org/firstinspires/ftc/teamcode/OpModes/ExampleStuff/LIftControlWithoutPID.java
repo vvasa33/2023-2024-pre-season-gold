@@ -72,7 +72,7 @@ public class LIftControlWithoutPID extends LinearOpMode {
                     break;
 
                 case RETRACT:
-                    lift.setTargetPosition(0);
+                    lift.setTargetPosition(HardwareConstants.LiftPositions.GROUND.getValue());
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     lift.setPower(0.7);
                     if (!lift.isBusy()) {
