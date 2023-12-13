@@ -43,10 +43,11 @@ public class LIftControlWithoutPID extends LinearOpMode {
             } else if (gamepad1.x) {
                 HardwareConstants.currentLiftState = HardwareConstants.LiftStates.EXTEND;
                 target = HardwareConstants.LiftPositions.SETLINE_2.getValue();
-            } else if (gamepad1.y) {
-                HardwareConstants.currentLiftState = HardwareConstants.LiftStates.EXTEND;
-                target = HardwareConstants.LiftPositions.SETLINE_3.getValue();
             }
+//            } else if (gamepad1.y) {
+//                HardwareConstants.currentLiftState = HardwareConstants.LiftStates.EXTEND;
+//                target = HardwareConstants.LiftPositions.SETLINE_3.getValue();
+//            }
 
             switch (HardwareConstants.currentLiftState) {
                 case WAITING:
@@ -60,8 +61,12 @@ public class LIftControlWithoutPID extends LinearOpMode {
                     }
                     break;
                 case DEPOSIT:
+                    //code for the claw goes here
+
+
+
                     if (HardwareConstants.currentRightClawState == HardwareConstants.ClawStates.OPEN && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.OPEN) {
-                        sleep(200); //wait a little bit so that the
+                        sleep(200); //wait a little bit so that the robot can score
                         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.RETRACT;
                     }
                     break;
@@ -78,8 +83,8 @@ public class LIftControlWithoutPID extends LinearOpMode {
 
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3 : 1),
-                            -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3 : 1),
+                            -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3.0 : 1),
+                            -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3.0 : 1),
                             -gamepad1.right_stick_x
                     )
             );
