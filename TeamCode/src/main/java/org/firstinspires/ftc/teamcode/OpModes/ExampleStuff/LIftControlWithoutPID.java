@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.ServoImplEx;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -16,9 +17,23 @@ public class LIftControlWithoutPID extends LinearOpMode {
     SampleMecanumDrive drive;
     DcMotorEx lift;
 
+    //new claw stuff i guess
+
+    ServoImplEx arm1, arm2;
+    ServoImplEx joint;
+    ServoImplEx claw1, claw2;
+
     public static int target;
     @Override
     public void runOpMode() throws InterruptedException {
+        //claw instantiation
+        arm1 = hardwareMap.get(ServoImplEx.class, "arm1");
+        arm2 = hardwareMap.get(ServoImplEx.class, "arm2");
+        joint = hardwareMap.get(ServoImplEx.class, "joint");
+        claw1 = hardwareMap.get(ServoImplEx.class, "claw1");
+        claw2 = hardwareMap.get(ServoImplEx.class, "claw2");
+
+
         lift = hardwareMap.get(DcMotorEx.class, "lift");
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
