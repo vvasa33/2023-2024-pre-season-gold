@@ -96,6 +96,12 @@ public class HardwareConstants {
     public static ClawStates currentLeftClawState = ClawStates.CLOSED;
     public static ClawStates currentRightClawState = ClawStates.CLOSED;
 
+
+    public enum CameraAreas {
+        LEFT,
+        RIGHT,
+        CENTER
+    }
     //HARDWARE CONSTANTS
 
     //LIFT STUFF
