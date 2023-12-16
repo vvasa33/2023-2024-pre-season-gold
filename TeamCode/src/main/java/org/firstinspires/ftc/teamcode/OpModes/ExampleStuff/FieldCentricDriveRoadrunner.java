@@ -19,7 +19,7 @@ public class FieldCentricDriveRoadrunner extends LinearOpMode {
 
         waitForStart();
 
-        while (opModeIsActive()) {
+        while (opModeIsActive() && !isStopRequested()) {
             Pose2d estimate = drive.getPoseEstimate();
 
             Vector2d input = new Vector2d(

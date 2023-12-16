@@ -17,7 +17,7 @@ public class liftTuning extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.lift.controlLift();
+            //robot.lift.controlLift();
         }
     }
 }

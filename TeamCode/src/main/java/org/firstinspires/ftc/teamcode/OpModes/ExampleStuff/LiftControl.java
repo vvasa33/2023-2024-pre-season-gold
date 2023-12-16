@@ -17,6 +17,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @TeleOp (name= "lift control")
 public class LiftControl extends LinearOpMode {
     public DcMotorEx lift;
+    public DcMotorEx motor;
+
 
     public PIDController liftController;
     public final double f = 0;
@@ -29,6 +31,7 @@ public class LiftControl extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        motor = hardwareMap.get(DcMotorEx.class, "motor");
         //tune this
         liftController = new PIDController(0,0,0);
         lift = hardwareMap.get(DcMotorEx.class, "lift");
@@ -110,6 +113,14 @@ public class LiftControl extends LinearOpMode {
             );
 
             drive.update();
+
+            if (gamepad1.left_trigger > 0.1) {
+                motor.setPower(-gamepad1.left_trigger);
+            } else if (gamepad1.right_trigger > 0.1) {
+                motor.setPower(gamepad1.right_trigger);
+            } else {
+                motor.setPower(0);
+            }
 
             telemetry.addData("Lift Position", HardwareConstants.currentLiftPosition);
             telemetry.addData("Lift State", HardwareConstants.currentLiftState);

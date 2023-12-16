@@ -55,7 +55,7 @@ public class HardwareConstants {
     //TODO tune these values for the robot
     public enum LiftPositions {
         GROUND (0),
-        SETLINE_1 (1000),
+        SETLINE_1 (900),
         SETLINE_2 (2000),
         SETLINE_3 (3000),
         MANUAL_UP (500),
@@ -79,7 +79,8 @@ public class HardwareConstants {
         WAITING,
         EXTEND,
         DEPOSIT,
-        RETRACT;
+        RETRACT,
+        MANUAL;
     }
     public static LiftStates currentLiftState = LiftStates.WAITING;
 
@@ -109,7 +110,7 @@ public class HardwareConstants {
     public static final double slowLiftSpeed = 0.3;
     public static final double noLiftSpeed = 0.0;
 
-    public static final int threshold = 1000;
+    public static final int threshold = 650;
 
     //
 

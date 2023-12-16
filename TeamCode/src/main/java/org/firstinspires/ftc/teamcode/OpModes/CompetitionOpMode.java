@@ -19,7 +19,6 @@ public class CompetitionOpMode extends LinearOpMode {
     SampleMecanumDrive drive;
 
 
-
     @Override
     public void runOpMode() throws InterruptedException {
         motor = hardwareMap.get(DcMotorEx.class, "motor");

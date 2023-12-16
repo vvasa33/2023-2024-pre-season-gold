@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.ServoImplEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -17,35 +17,48 @@ public class LIftControlWithoutPID extends LinearOpMode {
     SampleMecanumDrive drive;
     DcMotorEx lift;
 
-    //new claw stuff i guess
-
-    ServoImplEx arm1, arm2;
-    ServoImplEx joint;
-    ServoImplEx claw1, claw2;
+    Servo arm1, arm2;
+    Servo joint;
+    Servo claw1, claw2;
 
     public static int target;
     @Override
     public void runOpMode() throws InterruptedException {
-        //claw instantiation
-        arm1 = hardwareMap.get(ServoImplEx.class, "arm1");
-        arm2 = hardwareMap.get(ServoImplEx.class, "arm2");
-        joint = hardwareMap.get(ServoImplEx.class, "joint");
-        claw1 = hardwareMap.get(ServoImplEx.class, "claw1");
-        claw2 = hardwareMap.get(ServoImplEx.class, "claw2");
-
-
         lift = hardwareMap.get(DcMotorEx.class, "lift");
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //HardwareConstants.currentLiftPosition = HardwareConstants.LiftPositions.GROUND;
         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.WAITING;
 
+        arm1 = hardwareMap.get(Servo.class, "arm");
+        arm2 = hardwareMap.get(Servo.class, "arm2");
+        joint = hardwareMap.get(Servo.class, "joint");
+        claw1 = hardwareMap.get(Servo.class, "claw1");
+        claw2 = hardwareMap.get(Servo.class, "claw2");
+
+        //everything is in position and the servos are closed right now
+        arm1.setPosition(0);
+        arm2.setPosition(0);
+        joint.setPosition(0.69);
+        claw1.setPosition(0.55);
+        claw2.setPosition(0.85);
+
+        HardwareConstants.currentLeftClawState = HardwareConstants.ClawStates.CLOSED;
+        HardwareConstants.currentRightClawState = HardwareConstants.ClawStates.CLOSED;
+
+
+//        arm1.setPosition(0);
+//        arm2.setPosition(0);
+//        joint.setPosition(0.69);
+//        claw1.setPosition(0.55);
+//        claw2.setPosition(0.85);
+
         drive = new SampleMecanumDrive(hardwareMap);
 
-        PhotonCore.experimental.setMaximumParallelCommands(6);
-        PhotonCore.start(hardwareMap);
+//        PhotonCore.experimental.setMaximumParallelCommands(6);
+//        PhotonCore.start(hardwareMap);
 
         waitForStart();
 
@@ -64,6 +77,18 @@ public class LIftControlWithoutPID extends LinearOpMode {
 //                target = HardwareConstants.LiftPositions.SETLINE_3.getValue();
 //            }
 
+            if (gamepad1.left_bumper && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.CLOSED) {
+                claw1.setPosition(0.3);
+            } else if (gamepad1.left_bumper && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.OPEN) {
+                claw1.setPosition(1);
+            }
+
+            if (gamepad1.right_bumper && HardwareConstants.currentRightClawState == HardwareConstants.ClawStates.CLOSED) {
+                claw2.setPosition(0.55);
+            } else if (gamepad1.right_bumper && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.OPEN) {
+                claw2.setPosition(0.85);
+            }
+
             switch (HardwareConstants.currentLiftState) {
                 case WAITING:
                     break;
@@ -74,22 +99,48 @@ public class LIftControlWithoutPID extends LinearOpMode {
                     if (!lift.isBusy()) {
                         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.DEPOSIT;
                     }
+
+                    if (lift.getCurrentPosition() > HardwareConstants.threshold) {
+                        arm1.setPosition(0.7);
+                        arm2.setPosition(0.7);
+
+                        joint.setPosition(1);
+                    }
+
                     break;
                 case DEPOSIT:
-                    //code for the claw goes here
-
-
+                    if (gamepad1.left_bumper) {
+                        claw1.setPosition(0.3);
+                        HardwareConstants.currentLeftClawState = HardwareConstants.ClawStates.OPEN;
+                    } else if (gamepad1.right_bumper) {
+                        claw2.setPosition(0.55);
+                        HardwareConstants.currentRightClawState = HardwareConstants.ClawStates.OPEN;
+                    }
 
                     if (HardwareConstants.currentRightClawState == HardwareConstants.ClawStates.OPEN && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.OPEN) {
-                        sleep(200); //wait a little bit so that the robot can score
+                        sleep(200); //wait a little bit so that the
+
                         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.RETRACT;
                     }
                     break;
 
                 case RETRACT:
-                    lift.setTargetPosition(HardwareConstants.LiftPositions.GROUND.getValue());
+                    claw1.setPosition(0.3);
+                    claw2.setPosition(0.55);
+                    joint.setPosition(0.69);
+                    arm1.setPosition(0);
+                    arm2.setPosition(0);
+                    lift.setTargetPosition(0);
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     lift.setPower(0.7);
+
+//                    if (lift.getCurrentPosition() < HardwareConstants.threshold) {
+//                        arm1.setPosition(0);
+//                        arm2.setPosition(0);
+//
+//                        joint.setPosition(0.69);
+//                    }
+
                     if (!lift.isBusy()) {
                         HardwareConstants.currentLiftState = HardwareConstants.LiftStates.WAITING;
                     }
@@ -98,8 +149,8 @@ public class LIftControlWithoutPID extends LinearOpMode {
 
             drive.setWeightedDrivePower(
                     new Pose2d(
-                            -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3.0 : 1),
-                            -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3.0 : 1),
+                            -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3 : 1),
+                            -gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3 : 1),
                             -gamepad1.right_stick_x
                     )
             );
