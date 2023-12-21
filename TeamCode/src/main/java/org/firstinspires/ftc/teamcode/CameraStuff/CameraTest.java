@@ -17,7 +17,7 @@ public class CameraTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         pipeline = new PropDetectorRed();
         portal = new VisionPortal.Builder()
-                .setCamera(hardwareMap.get(WebcamName.class, "webcam"))
+                .setCamera(hardwareMap.get(WebcamName.class, "0")) //the zero represents the first webcam detected by the control hub os
                 .setCameraResolution(new Size(640,480))
                 .setCamera(BuiltinCameraDirection.BACK)
                 .addProcessor(pipeline)
