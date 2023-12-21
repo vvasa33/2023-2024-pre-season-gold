@@ -15,17 +15,17 @@ public class MeepMeepCloseRed {
                 .setConstraints(55, 55, 4.115477328170351, Math.toRadians(194.6310524271845), 13.65)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d((14.65 / 2) + 1, -62.7, Math.toRadians(270)))
-                                .lineTo(new Vector2d(22.7,-46.4)) //right
+                                //.lineTo(new Vector2d(22.7,-46.4)) //right
                                 //.lineTo(new Vector2d(16,-33.7)) //vision spike middle
-                                //.lineToLinearHeading(new Pose2d(6.5,-41.4,  5 * Math.PI / 3)) //vision spike left
+                                .lineToLinearHeading(new Pose2d(6.5,-41.4,  5 * Math.PI / 3)) //vision spike left
 
-                                .splineToLinearHeading(new Pose2d(47.1, -41.1, Math.toRadians(180)), Math.toRadians(0)) //board spot right
+                                //.splineToLinearHeading(new Pose2d(47.1, -41.1, Math.toRadians(180)), Math.toRadians(0)) //board spot right
                                 //.splineToLinearHeading(new Pose2d(47.1, -34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle
-                                //.splineToLinearHeading(new Pose2d(47.1, -28.4, Math.toRadians(180)), Math.toRadians(0)) //board spot left
+                                .splineToLinearHeading(new Pose2d(47.1, -28.4, Math.toRadians(180)), Math.toRadians(0)) //board spot left
 
-                                .lineTo(new Vector2d(46, -41.1)) //right to align
+                                //.lineTo(new Vector2d(46, -41.1)) //right to align
                                 //.lineTo(new Vector2d(46, -34.7)) //middle to align
-                                //.lineTo(new Vector2d(46, -28.4)) //left to align
+                                .lineTo(new Vector2d(46, -28.4)) //left to align
 
                                 .splineTo(new Vector2d(10,-10), Math.toRadians(180)) //align with the backstage door
                                 .splineTo(new Vector2d(-36.3, -10), Math.toRadians(180)) //go through door
@@ -73,7 +73,7 @@ public class MeepMeepCloseRed {
 
                                 .splineToLinearHeading(new Pose2d(47.1, -34.7, Math.toRadians(180)), Math.toRadians(0))//score
 
-                                .lineToLinearHeading(new Pose2d(47.1, -59.4, Math.toRadians(135)))
+                                //.lineToLinearHeading(new Pose2d(47.1, -59.4, Math.toRadians(135)))
                                 .build()
 
                         );
