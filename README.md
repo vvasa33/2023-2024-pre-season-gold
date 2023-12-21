@@ -11,7 +11,5 @@ Features:
 - Finite State Machine used to determine state and account for all possibilites of our robot in a certain scenario. Used for accuracy and to allow for multitasking within autonomous and TeleOp routines
 - Robot position lock to forcefully contain scoring during auto (and teleop if we want but idk if its good or not for that)
 - Auto scoring thing so we dont have to constantly line up to score (it does it for us)
-
-Future Teams
-Please don't make any changes to the actual code in the repository. Once our season is over, I'd like to keep this as reference for future teams to use the code.
-
+- 2+6 autonomous, one of the highest autos in the world (score the two preloads, and then score 6 extra pixels from the stack)
+- 75 point auto (120 with a good team!)
