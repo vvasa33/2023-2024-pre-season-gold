@@ -35,7 +35,7 @@ public class LiftControl extends LinearOpMode {
         //tune this
         liftController = new PIDController(0,0,0);
         lift = hardwareMap.get(DcMotorEx.class, "lift");
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         //HardwareConstants.currentLiftPosition = HardwareConstants.LiftPositions.GROUND;

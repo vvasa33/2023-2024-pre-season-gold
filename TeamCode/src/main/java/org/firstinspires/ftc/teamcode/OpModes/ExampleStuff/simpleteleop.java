@@ -9,26 +9,24 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @TeleOp(name="liftsimpleteleop")
 public class simpleteleop extends LinearOpMode {
     public DcMotorEx lift;
-    @Override
-    public void runOpMode() throws InterruptedException {
-        lift = hardwareMap.get(DcMotorEx.class, "lift");
-
+    public void runOpMode() throws InterruptedException{
+        lift=hardwareMap.get (DcMotorEx.class,"lift");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
-        lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
-            if (gamepad1.x) {
-                lift.setPower(-0.7);
-            } else if (gamepad1.b) {
-                lift.setPower(0.7);
-            } else {
-                lift.setPower(0);
-            }
+            if (gamepad1.b) {
+                lift.setTargetPosition(500);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(0.5);
 
+            } else if (gamepad1.x) {
+                lift.setTargetPosition(0);
+                lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                lift.setPower(0.5);
+            }
         }
     }
 }
