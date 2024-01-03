@@ -18,6 +18,10 @@ public class builderauto extends LinearOpMode {
 
         waitForStart();
 
+        //lessons learned: give your programmers time to program or else this happens
+
+        //ran this during mt st josephs, it just runs motors for a set period of time
+        //jk i didnt actually run this i was too scared
         while (timer.seconds() < 3) {
             drive.setWeightedDrivePower(
                     new Pose2d(
