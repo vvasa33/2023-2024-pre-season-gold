@@ -40,6 +40,8 @@ public class CompetitionOpMode extends LinearOpMode {
             } else {
                 motor.setPower(0);
             }
+
+
         }
     }
 

@@ -35,5 +35,8 @@ public class ServoSettings extends LinearOpMode {
             joint.setPosition(jointPosition);
             claw1.setPosition(clawPosition);
             claw2.setPosition(claw2Position);
-        }    }
+
+
+        }
+    }
 }

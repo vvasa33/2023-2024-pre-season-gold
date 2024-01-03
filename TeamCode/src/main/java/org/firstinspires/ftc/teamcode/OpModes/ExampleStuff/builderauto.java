@@ -25,8 +25,8 @@ public class builderauto extends LinearOpMode {
         while (timer.seconds() < 3) {
             drive.setWeightedDrivePower(
                     new Pose2d(
+                            1,
                             0,
-                            -0.5,
                             0
                     )
             );
