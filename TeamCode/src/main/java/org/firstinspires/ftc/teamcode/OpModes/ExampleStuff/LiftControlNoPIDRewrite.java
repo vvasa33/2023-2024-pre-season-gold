@@ -70,6 +70,9 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
     public int previousBack = 0;
     public int previousFront = 0;
 
+    public int currentFront = 0;
+    public int currentBack = 0;
+
     public boolean sensorOverride = false;
 
     @Override
@@ -116,14 +119,20 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 liftState = LiftStates.MANUAL;
             }
 
-            if (previousFront != frontSensor.argb() && !sensorOverride && liftState == LiftStates.WAITING) {
+            currentFront = frontSensor.argb();
+            currentBack = backSensor.argb();
+
+            if (previousFront != currentFront && !sensorOverride && liftState == LiftStates.WAITING) {
                 frontClaw.setPosition(1);
                 frontClawState = ClawStates.CLOSED;
             }
-            if (previousBack != backSensor.argb() && !sensorOverride && liftState == LiftStates.WAITING) {
+            if (previousBack != currentBack && !sensorOverride && liftState == LiftStates.WAITING) {
                 backClaw.setPosition(1);
                 backClawState = ClawStates.CLOSED;
             }
+
+            previousBack = currentBack;
+            previousFront = currentFront;
 
             if (gamepad2.left_trigger > 0.5 && frontClawState == ClawStates.OPEN) {
                 frontClaw.setPosition(1);
