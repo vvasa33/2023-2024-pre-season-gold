@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -35,7 +36,8 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
         WAITING,
         EXTENDING,
         DEPOSIT,
-        RETRACT
+        RETRACT,
+        MANUAL;
     }
 
     public LiftStates liftState = LiftStates.WAITING;
@@ -52,9 +54,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
         GROUND (0),
         SETLINE_1 (900),
         SETLINE_2 (2000),
-        SETLINE_3 (3000),
-        MANUAL_UP (500),
-        MANUAL_DOWN (500);
+        HANG (1100);
 
         private final int val;
 
@@ -95,6 +95,8 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
 
         backTimer = new ElapsedTime();
         frontTimer = new ElapsedTime();
+        telemetry.addLine("Optimized with Photon, press play to start...");
+        telemetry.update();
 
         waitForStart();
 
@@ -109,7 +111,9 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 target = LiftPositions.SETLINE_2.getValue();
             } else if (gamepad2.y) {
                 liftState = LiftStates.EXTENDING;
-                target = 1100;
+                target = LiftPositions.HANG.getValue();
+            } else if (gamepad2.dpad_up) {
+                liftState = LiftStates.MANUAL;
             }
 
             if (previousFront != frontSensor.argb() && !sensorOverride && liftState == LiftStates.WAITING) {
@@ -174,6 +178,19 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     }
                     sensorOverride = false;
                     break;
+                case MANUAL:
+                    lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                    if (gamepad2.dpad_up) {
+                        lift.setPower(0.2);
+                    } else if (gamepad2.dpad_down) {
+                        lift.setPower(-0.2);
+                    }
+                    if (lift.getCurrentPosition() > HardwareConstants.threshold) {
+                        arm.setPosition(1);
+                    } else if (lift.getCurrentPosition() < HardwareConstants.threshold) {
+                        arm.setPosition(0);
+                    }
+                    break;
             }
 
             drive.setWeightedDrivePower(
@@ -192,9 +209,9 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 motor.setPower(0);
             }
 
-            if (gamepad2.dpad_down) {
+            if (gamepad2.dpad_left) {
                 airplane.setPosition(1); //reset
-            } else if (gamepad2.dpad_up) {
+            } else if (gamepad2.dpad_right) {
                 airplane.setPosition(0); //throw
             }
 
