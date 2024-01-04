@@ -192,9 +192,9 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 motor.setPower(0);
             }
 
-            if (gamepad2.a) {
+            if (gamepad2.dpad_down) {
                 airplane.setPosition(1); //reset
-            } else if (gamepad2.b) {
+            } else if (gamepad2.dpad_up) {
                 airplane.setPosition(0); //throw
             }
 
