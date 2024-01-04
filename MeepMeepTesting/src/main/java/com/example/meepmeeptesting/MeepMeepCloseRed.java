@@ -14,10 +14,10 @@ public class MeepMeepCloseRed {
         RoadRunnerBotEntity meepmeep = new DefaultBotBuilder(meep)
                 .setConstraints(55, 55, 4.115477328170351, Math.toRadians(194.6310524271845), 13.65)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d((14.65 / 2) + 1, -62.7, Math.toRadians(270)))
-                                //.lineTo(new Vector2d(22.7,-46.4)) //right
+                        drive.trajectorySequenceBuilder(new Pose2d((14.65 / 2) + 1, -62.7, Math.toRadians(90)))
+                                .lineTo(new Vector2d(22.7,-44.4)) //right
                                 //.lineTo(new Vector2d(16,-33.7)) //vision spike middle
-                                .lineToLinearHeading(new Pose2d(6.5,-41.4,  5 * Math.PI / 3)) //vision spike left
+                                //.lineToLinearHeading(new Pose2d(6.5,-41.4,  5 * Math.PI / 3)) //vision spike left
 
                                 //.splineToLinearHeading(new Pose2d(47.1, -41.1, Math.toRadians(180)), Math.toRadians(0)) //board spot right
                                 //.splineToLinearHeading(new Pose2d(47.1, -34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle

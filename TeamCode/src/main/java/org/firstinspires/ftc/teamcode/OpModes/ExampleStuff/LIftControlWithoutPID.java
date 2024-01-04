@@ -101,7 +101,7 @@ public class LIftControlWithoutPID extends LinearOpMode {
 //            } else if (gamepad1.right_bumper && HardwareConstants.currentLeftClawState == HardwareConstants.ClawStates.OPEN) {
 //                claw2.setPosition(0.85);
 //                HardwareConstants.currentRightClawState = HardwareConstants.ClawStates.CLOSED;
-//            }'
+//            }
 
             switch (HardwareConstants.currentLiftState) {
                 case WAITING:

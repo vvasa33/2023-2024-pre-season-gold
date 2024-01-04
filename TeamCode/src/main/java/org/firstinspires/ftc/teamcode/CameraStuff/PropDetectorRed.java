@@ -18,6 +18,11 @@ public class PropDetectorRed implements VisionProcessor {
     Mat lowMat = new Mat();
     Mat finalMat = new Mat();
     double threshold = 0.4;
+    Scalar lowHSVRedLower = new Scalar(0, 100, 20);  //Beginning of Color Wheel
+    Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
+
+    Scalar redHSVRedLower = new Scalar(160, 100, 20); //Wraps around Color Wheel
+    Scalar highHSVRedUpper = new Scalar(180, 255, 255);
 
     public static HardwareConstants.CameraAreas area = HardwareConstants.CameraAreas.CENTER;
 
@@ -40,13 +45,7 @@ public class PropDetectorRed implements VisionProcessor {
     public Object processFrame(Mat frame, long captureTimeNanos) {
         Imgproc.cvtColor(frame, test, Imgproc.COLOR_RGB2HSV);
 
-        Scalar lowHSVRedLower = new Scalar(0, 100, 20);  //Beginning of Color Wheel
-        Scalar lowHSVRedUpper = new Scalar(10, 255, 255);
-
-        Scalar redHSVRedLower = new Scalar(160, 100, 20); //Wraps around Color Wheel
-        Scalar highHSVRedUpper = new Scalar(180, 255, 255);
-
-        Core.inRange(test, lowHSVRedLower, lowHSVRedUpper, lowMat);
+        Core.inRange(test, lowHSVRedLower, lowHSVRedUpper, lowMat); //basically doing it for the first part of the color range
         Core.inRange(test, redHSVRedLower, highHSVRedUpper, highMat);
 
         test.release();
