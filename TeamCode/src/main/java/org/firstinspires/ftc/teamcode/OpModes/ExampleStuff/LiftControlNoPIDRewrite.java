@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.apache.commons.math3.stat.inference.MannWhitneyUTest;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -19,7 +18,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @TeleOp (name="sensorsnopid")
 public class LiftControlNoPIDRewrite extends LinearOpMode {
     SampleMecanumDrive drive;
-    DcMotorEx lift, motor; //intake motor is called motor
+    DcMotorEx lift, intake; //intake motor is called motor
 
     Servo arm;
     Servo joint;
@@ -75,6 +74,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
 
     public boolean sensorOverride = false;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new SampleMecanumDrive(hardwareMap);
@@ -86,8 +86,11 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
 
         backSensor = hardwareMap.get(ColorSensor.class, "back");
         frontSensor = hardwareMap.get(ColorSensor.class, "front");
+        backSensor.enableLed(true);
+        frontSensor.enableLed(true);
 
-        motor = hardwareMap.get(DcMotorEx.class, "motor");
+        intake = hardwareMap.get(DcMotorEx.class, "motor");
+
 
         arm = hardwareMap.get(Servo.class, "arm"); //we control both with one thing now yay
 
@@ -104,6 +107,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
+            //presets (lift power is set in the switch (thats the fsm))
             if (gamepad2.a && liftState != LiftStates.WAITING) {
                 liftState = LiftStates.RETRACT;
             } else if (gamepad2.b) {
@@ -119,6 +123,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 liftState = LiftStates.MANUAL;
             }
 
+            //we save this to another variable because these are i2c calls which are slow
             currentFront = frontSensor.argb();
             currentBack = backSensor.argb();
 
@@ -134,6 +139,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
             previousBack = currentBack;
             previousFront = currentFront;
 
+            //claw stuff (overrides)
             if (gamepad2.left_trigger > 0.5 && frontClawState == ClawStates.OPEN) {
                 frontClaw.setPosition(1);
                 frontClawState = ClawStates.CLOSED;
@@ -154,6 +160,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 sensorOverride = true;
             }
 
+            //finite state machine controlling the lift mechanism
             switch (liftState) {
                 case WAITING:
                     break;
@@ -177,7 +184,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     }
                     break;
                 case RETRACT:
-                    lift.setTargetPosition(0);
+                    lift.setTargetPosition(LiftPositions.GROUND.getValue());
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     lift.setPower(1);
 
@@ -202,6 +209,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     break;
             }
 
+            //drive code is outsourced to rr because why not
             drive.setWeightedDrivePower(
                     new Pose2d(
                             -gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3 : 1),
@@ -210,14 +218,16 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     )
             );
 
+            //intake stuff, its so simple that we just use if statements
             if (gamepad1.left_trigger > 0.1) {
-                motor.setPower(-gamepad1.left_trigger); //spit out
+                intake.setPower(-gamepad1.left_trigger); //spit out
             } else if (gamepad1.right_trigger > 0.1) {
-                motor.setPower(gamepad1.right_trigger); //spit in
+                intake.setPower(gamepad1.right_trigger); //spit in
             } else {
-                motor.setPower(0);
+                intake.setPower(0);
             }
 
+            //airplane thrower (insert 9/11 joke)
             if (gamepad2.dpad_left) {
                 airplane.setPosition(1); //reset
             } else if (gamepad2.dpad_right) {
