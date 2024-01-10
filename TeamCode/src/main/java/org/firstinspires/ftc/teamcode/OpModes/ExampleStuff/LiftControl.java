@@ -43,8 +43,8 @@ public class LiftControl extends LinearOpMode {
 
         drive = new SampleMecanumDrive(hardwareMap);
 
-        PhotonCore.experimental.setMaximumParallelCommands(6);
-        PhotonCore.start(hardwareMap);
+//        PhotonCore.experimental.setMaximumParallelCommands(6);
+//        PhotonCore.start(hardwareMap);
 
         waitForStart();
 

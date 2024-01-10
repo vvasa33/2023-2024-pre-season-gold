@@ -22,7 +22,7 @@ public class ServoSettings extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         arm1 = hardwareMap.get(Servo.class, "arm");
-        arm2 = hardwareMap.get(Servo.class, "arm2");
+        //arm2 = hardwareMap.get(Servo.class, "arm2");
         joint = hardwareMap.get(Servo.class, "joint");
         claw1 = hardwareMap.get(Servo.class, "claw1");
         claw2 = hardwareMap.get(Servo.class, "claw2");
@@ -31,7 +31,7 @@ public class ServoSettings extends LinearOpMode {
 
         while (opModeIsActive() && !isStopRequested()) {
             arm1.setPosition(armPosition);
-            arm2.setPosition(armPosition);
+            //arm2.setPosition(armPosition);
             joint.setPosition(jointPosition);
             claw1.setPosition(clawPosition);
             claw2.setPosition(claw2Position);

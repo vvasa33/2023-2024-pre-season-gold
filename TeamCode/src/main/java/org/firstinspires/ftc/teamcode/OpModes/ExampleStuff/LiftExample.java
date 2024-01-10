@@ -39,8 +39,8 @@ public class LiftExample extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
         liftController = new PIDController(p,i,d);
-        PhotonCore.start(hardwareMap);
-        PhotonCore.experimental.setMaximumParallelCommands(6);
+//        PhotonCore.start(hardwareMap);
+//        PhotonCore.experimental.setMaximumParallelCommands(6);
 
 
         waitForStart();
