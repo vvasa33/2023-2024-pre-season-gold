@@ -1,8 +1,10 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.arcrobotics.ftclib.drivebase.MecanumDrive;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.arcrobotics.ftclib.hardware.motors.MotorEx;
 import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -19,13 +21,15 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 @Photon
 @TeleOp (name="sensorsnopid")
 public class LiftControlNoPIDRewrite extends LinearOpMode {
-    SampleMecanumDrive drive;
+    MecanumDrive drive;
+    MotorEx fl, fr, bl, br;
     DcMotorEx lift, intake; //intake motor is called motor
 
     Servo arm;
     Servo joint;
     Servo frontClaw, backClaw;
     ElapsedTime backTimer, frontTimer, armTimer, liftTimer;
+
 
     Servo airplane;
     GamepadEx gamepad;
@@ -71,6 +75,13 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
         }
     }
 
+    public enum DriveStates {
+        FRONT,
+        BACK
+    }
+
+    public DriveStates currentDriveState = DriveStates.FRONT;
+
     public int previousBack = 0;
     public int previousFront = 0;
 
@@ -82,7 +93,12 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        drive = new SampleMecanumDrive(hardwareMap);
+        fl = hardwareMap.get(MotorEx.class, "fl");
+        fr = hardwareMap.get(MotorEx.class, "fr");
+        bl = hardwareMap.get(MotorEx.class, "bl");
+        br = hardwareMap.get(MotorEx.class, "br");
+        drive = new MecanumDrive(fl, fr, bl, br);
+
         lift = hardwareMap.get(DcMotorEx.class, "lift");
         lift.setDirection(DcMotorSimple.Direction.FORWARD);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -212,16 +228,12 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     }
                     break;
                 case DEPOSIT:
-                    if (frontClawState == ClawStates.OPEN && backClawState == ClawStates.OPEN) {
-                        liftState = LiftStates.RETRACT;
-                        armTimer.reset();
-
-                    }
                     break;
                 case RETRACT:
                     if (armTimer.seconds() > 1) {
                         lift.setTargetPosition(LiftPositions.GROUND.getValue());
                         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                        //who did this??? (probably zach)
                         telemetry.addLine("yo hi visu I'm in your code :D");
                         telemetry.update();
                         lift.setPower(1);
@@ -246,16 +258,31 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     break;
             }
 
-            //drive code is outsourced to rr because why not
-            drive.setWeightedDrivePower(
-                    new Pose2d(
-                            gamepad1.left_stick_y / ((gamepad1.left_bumper) ? 3 : 1),
-                            gamepad1.left_stick_x / ((gamepad1.left_bumper) ? 3 : 1),
-                            gamepad1.right_stick_x
-                    )
-            );
+            //multiple drive states to emulate which side of the robot is perceived as the front of the robot
 
-            drive.update();
+            switch (currentDriveState) {
+                case FRONT: default:
+                    drive.driveRobotCentric(
+                            gamepad1.left_stick_x,
+                            gamepad1.left_stick_y,
+                            gamepad1.right_stick_x
+                    );
+                    break;
+                case BACK:
+                    drive.driveRobotCentric(
+                            -gamepad1.left_stick_x,
+                            -gamepad1.left_stick_y,
+                            gamepad1.right_stick_x
+                    );
+                    break;
+            }
+
+            if (gamepad1.b && currentDriveState == DriveStates.FRONT) {
+                currentDriveState = DriveStates.BACK;
+            } else if (gamepad1.b && currentDriveState == DriveStates.BACK) {
+                currentDriveState = DriveStates.FRONT;
+            }
+
             //intake stuff, its so simple that we just use if statements
             if (gamepad2.left_trigger > 0.1) {
                 intake.setPower(-gamepad2.left_trigger); //spit out
