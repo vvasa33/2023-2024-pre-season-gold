@@ -284,9 +284,9 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
             }
 
             //intake stuff, its so simple that we just use if statements
-            if (gamepad2.left_trigger > 0.1) {
+            if (gamepad1.left_trigger > 0.1) {
                 intake.setPower(-gamepad2.left_trigger); //spit out
-            } else if (gamepad2.right_trigger > 0.1) {
+            } else if (gamepad1.right_trigger > 0.1) {
                 intake.setPower(gamepad2.right_trigger); //spit in
             } else {
                 intake.setPower(0);
@@ -300,6 +300,8 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
 //            }
 
             telemetry.addData("lift", lift.getCurrentPosition());
+            telemetry.addData("lift state", liftState);
+            telemetry.addData("drive state", currentDriveState);
             telemetry.update();
         }
     }
