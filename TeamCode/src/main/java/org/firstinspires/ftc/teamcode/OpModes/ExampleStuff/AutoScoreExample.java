@@ -12,7 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @TeleOp (name="AutoScoreExample")
 public class AutoScoreExample extends LinearOpMode {
     SampleMecanumDrive drive;

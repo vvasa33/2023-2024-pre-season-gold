@@ -12,6 +12,7 @@ public class ServoSettings extends LinearOpMode {
     Servo arm1, arm2;
     Servo joint;
     Servo claw1, claw2;
+    Servo airplane;
 
     public static double armPosition = 0;
     public static double jointPosition = 0;

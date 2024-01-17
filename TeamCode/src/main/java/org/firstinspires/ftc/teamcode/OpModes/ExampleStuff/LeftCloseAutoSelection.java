@@ -9,7 +9,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @TeleOp (name= "LeftCloseAutoSelection", group="Auto Selection")
 public class LeftCloseAutoSelection extends LinearOpMode {
     SampleMecanumDrive drive;

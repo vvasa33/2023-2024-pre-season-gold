@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.CameraStuff;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -10,6 +11,7 @@ import org.firstinspires.ftc.vision.VisionPortal;
 
 import java.util.Locale;
 
+@TeleOp (name="cameratest")
 public class CameraTest extends LinearOpMode {
     private VisionPortal portal;
     private PropDetectorRed pipeline;
@@ -23,7 +25,7 @@ public class CameraTest extends LinearOpMode {
                 .addProcessor(pipeline)
                 .build();
 
-        portal.saveNextFrameRaw(String.format(Locale.US, "CameraFrameCapture-%06d"));
+        //portal.saveNextFrameRaw(String.format(Locale.US, "CameraFrameCapture-%06d"));
         waitForStart();
         telemetry.addLine(String.valueOf(pipeline.getArea()));
         telemetry.update();

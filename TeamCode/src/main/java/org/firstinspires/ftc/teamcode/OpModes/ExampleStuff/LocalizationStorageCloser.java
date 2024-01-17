@@ -8,7 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @TeleOp (name="LocalizationStorage")
 public class LocalizationStorageCloser extends LinearOpMode {
     public static Pose2d poseIntoTeleOp = new Pose2d();

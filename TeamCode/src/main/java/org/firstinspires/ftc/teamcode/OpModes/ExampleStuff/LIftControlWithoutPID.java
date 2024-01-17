@@ -12,7 +12,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.opencv.engine.OpenCVEngineInterface;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @TeleOp(name="liftcontrolnopid")
 public class LIftControlWithoutPID extends LinearOpMode {
     SampleMecanumDrive drive;

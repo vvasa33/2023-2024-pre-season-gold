@@ -27,15 +27,15 @@ import java.util.List;
  */
 @Config
 public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer {
-    public static double TICKS_PER_REV = 8192;
-    public static double WHEEL_RADIUS = 0.6889764; // in
+    public static double TICKS_PER_REV = 2000;
+    public static double WHEEL_RADIUS = 0.944882; // in
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (encoder) speed
 
-    public static double LATERAL_DISTANCE = 15; // in; distance between the left and right wheels
-    public static double FORWARD_OFFSET = -6.5; // in; offset of the lateral wheel
+    public static double LATERAL_DISTANCE = 13.63; // in; distance between the left and right wheels
+    public static double FORWARD_OFFSET = -7.2; // in; offset of the lateral wheel
 
     public static double X_MULTIPLIER = 1; // Multiplier in the X direction
-    public static double Y_MULTIPLIER = 90 / 89.8; // Multiplier in the Y direction
+    public static double Y_MULTIPLIER = 1; // Multiplier in the Y direction
 
     private Encoder leftEncoder, rightEncoder, frontEncoder;
 
@@ -56,7 +56,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
         frontEncoder = new Encoder(hardwareMap.get(DcMotorEx.class, "motor"));
 
         // TODO: reverse any encoders using Encoder.setDirection(Encoder.Direction.REVERSE)
-        //frontEncoder.setDirection(Encoder.Direction.REVERSE);
+        rightEncoder.setDirection(Encoder.Direction.REVERSE);
+
+
     }
 
     public static double encoderTicksToInches(double ticks) {
@@ -85,9 +87,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
     @NonNull
     @Override
     public List<Double> getWheelVelocities() {
-        int leftVel = (int) leftEncoder.getCorrectedVelocity();
-        int rightVel = (int) rightEncoder.getCorrectedVelocity();
-        int frontVel = (int) frontEncoder.getCorrectedVelocity();
+        int leftVel = (int) leftEncoder.getRawVelocity();
+        int rightVel = (int) rightEncoder.getRawVelocity();
+        int frontVel = (int) frontEncoder.getRawVelocity();
 
         lastEncVels.clear();
         lastEncVels.add(leftVel);

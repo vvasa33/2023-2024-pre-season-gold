@@ -12,7 +12,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @Config
 @TeleOp (name= "lift control")
 public class LiftControl extends LinearOpMode {

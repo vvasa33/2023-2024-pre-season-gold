@@ -6,7 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 public class DrivingPractice extends LinearOpMode {
     SampleMecanumDrive drive;
     double change = 0;

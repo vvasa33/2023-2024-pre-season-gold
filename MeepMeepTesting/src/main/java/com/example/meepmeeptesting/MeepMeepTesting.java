@@ -11,16 +11,17 @@ import java.util.Vector;
 public class MeepMeepTesting {
 
     public static void main(String[] args) {
-        MeepMeep meep = new MeepMeep(800);
+        MeepMeep meep = new MeepMeep(700);
 
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
                 .setConstraints(55, 55, 4.115477328170351, Math.toRadians(194.6310524271845), 14.65)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d(14.65/2, 62.7, Math.toRadians(90)))
+                        drive.trajectorySequenceBuilder(new Pose2d(14.65/2, 62.7, Math.toRadians(270)))
                                 .lineTo(new Vector2d(22.7,46.4)) //vision spike left
                                 //.lineTo(new Vector2d(16,33.7)) //vision spike middle
                                 //.lineToLinearHeading(new Pose2d(6.5,41.4,  Math.PI / 3)) //vision spike right
+
 
                                 .splineToLinearHeading(new Pose2d(47.1, 41.1, Math.toRadians(180)), Math.toRadians(0)) //board spot left
                                 //.splineToLinearHeading(new Pose2d(47.1, 34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle
@@ -32,7 +33,7 @@ public class MeepMeepTesting {
                                 //.lineTo(new Vector2d(46, 34.7)) //middle to align
                                 //.lineTo(new Vector2d(46, 28.4)) //right to align
 
-                                .splineTo(new Vector2d(10,10), Math.toRadians(180)) //align with the backstage door
+                                .splineTo(new Vector2d(29,10), Math.toRadians(180)) //align with the backstage door
                                 .splineTo(new Vector2d(-36.3, 10), Math.toRadians(180)) //go through door
 
                                 //.splineTo(new Vector2d(11,59.6), Math.toRadians(180)) //align with the truss

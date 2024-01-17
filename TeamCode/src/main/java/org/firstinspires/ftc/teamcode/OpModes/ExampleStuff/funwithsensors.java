@@ -3,7 +3,8 @@ package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
-
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+@Disabled
 @TeleOp (name="sensorstuff")
 public class funwithsensors extends LinearOpMode {
     ColorSensor back, front;
