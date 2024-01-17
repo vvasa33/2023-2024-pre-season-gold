@@ -144,6 +144,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
         telemetry.update();
 
         waitForStart();
+
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         while (opModeIsActive() && !isStopRequested()) {
@@ -209,12 +210,13 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 //sensorOverride = true;
             }
 
-            if (gamepad.wasJustPressed(GamepadKeys.Button.DPAD_LEFT) && frontClawState == ClawStates.CLOSED && backClawState == ClawStates.CLOSED) {
+            //cool code for closing both claws at the same time
+            if (gamepad.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 frontClaw.setPosition(0.55);
                 frontClawState = ClawStates.OPEN;
                 backClawState = ClawStates.OPEN;
                 backClaw.setPosition(0.37);
-            } else if (gamepad.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)  && frontClawState == ClawStates.OPEN && backClawState == ClawStates.OPEN) {
+            } else if (gamepad.wasJustPressed(GamepadKeys.Button.DPAD_LEFT)) {
                 frontClaw.setPosition(0.35);
                 frontClawState = ClawStates.CLOSED;
                 backClawState = ClawStates.CLOSED;
@@ -239,6 +241,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                         liftState = LiftStates.DEPOSIT;
                     }
                     break;
+                    //we dont actually need a deposit case i just like having control
                 case DEPOSIT:
                     break;
                 case RETRACT:
@@ -257,6 +260,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     //sensorOverride = false;
                     break;
                 case MANUAL:
+                    //i dont think this actually works
                     if (gamepad2.dpad_up) {
                         lift.setPower(0.2);
                     } else if (gamepad2.dpad_down) {
@@ -270,8 +274,6 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     break;
             }
 
-            //multiple drive states to emulate which side of the robot is perceived as the front of the robot
-
 
 
 
@@ -284,7 +286,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                 intake.setPower(0);
             }
 
-            //airplane thrower (insert 9/11 joke)
+            //airplane thrower (insert 9/11 joke idk)
             if (gamepad2.dpad_right) {
                 airplane.setPosition(1); //reset
             }
@@ -304,6 +306,8 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
             double blPower = (y - x + rx) / denominator / ((gamepad1.left_bumper) ? 3.0 : 1);
             double brPower = (y + x - rx) / denominator / ((gamepad1.left_bumper) ? 3.0 : 1);
 
+            //the back emulates driving as if the back was actually the front
+            //new robocavs programmers this is a game changer you should definitely use this
             switch (currentDriveState) {
                 case FRONT: default:
                     fl.setPower(-flPower);
@@ -319,6 +323,7 @@ public class LiftControlNoPIDRewrite extends LinearOpMode {
                     break;
             }
 
+            //changes state for that fsm
             if (gamepad1.b && currentDriveState == DriveStates.FRONT) {
                 currentDriveState = DriveStates.BACK;
             } else if (gamepad1.a && currentDriveState == DriveStates.BACK) {
