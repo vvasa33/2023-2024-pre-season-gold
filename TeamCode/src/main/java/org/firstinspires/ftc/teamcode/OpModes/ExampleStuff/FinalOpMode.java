@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -158,6 +159,10 @@ public class FinalOpMode extends LinearOpMode {
         frontTimer = new ElapsedTime();
         telemetry.addLine("Optimized with Photon, press play to start...");
         telemetry.update();
+
+        for (LynxModule l: hardwareMap.getAll(LynxModule.class)) {
+            l.setBulkCachingMode(LynxModule.BulkCachingMode.AUTO);
+        }
 
         waitForStart();
 
