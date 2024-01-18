@@ -79,7 +79,7 @@ public class autotesting extends LinearOpMode {
 
         TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(14.65/2, 62.7, Math.toRadians(270)))
                 .lineTo(new Vector2d(22.7,48))
-                .lineTo(new Vector2d(22.7, 54))
+                .lineTo(new Vector2d(22.7, 52))
                 .addTemporalMarker(1.2, () -> {
                     intake.setPower(0.2);
                     currentLiftState = LiftStates.EXTEND;
@@ -90,16 +90,32 @@ public class autotesting extends LinearOpMode {
                     intake.setPower(0);
                     backClaw.setPosition(0.52);
                 })
-                .splineToLinearHeading(new Pose2d(47.1, 41.1, Math.toRadians(180)), Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(48.6, 43.1, Math.toRadians(180)), Math.toRadians(0))
                 .addDisplacementMarker(() -> {
                     backClaw.setPosition(0.52);
                     depositTimer.reset();
                     currentLiftState = LiftStates.DEPOSIT;
                 })
                 .lineTo(new Vector2d(46, 41.1))
-                .splineTo(new Vector2d(29,11), Math.toRadians(180)) //align with the backstage door
+                .splineToLinearHeading(new Pose2d(29,11, Math.toRadians(180)), Math.toRadians(180))
                 .splineTo(new Vector2d(-36.3, 11), Math.toRadians(180)) //go through door
-                .splineTo(new Vector2d(-58, 11.8), Math.toRadians(180))
+                .addDisplacementMarker(() -> {
+                    intake.setPower(1);
+                })
+                .splineTo(new Vector2d(-62, 6), Math.toRadians(180))
+                .waitSeconds(1)
+//                .addDisplacementMarker(() -> {
+//                    intake.setPower(-1);
+//
+//                })
+                .lineTo(new Vector2d(-56, 6))
+
+
+                .splineTo(new Vector2d(-36.3,6), Math.toRadians(0)) //line up with the backstage door
+                .addDisplacementMarker(() -> {
+                    intake.setPower(0);
+                })
+                .splineTo(new Vector2d(10,6), Math.toRadians(0)) //go through
                 .build();
 
         drive.followTrajectorySequenceAsync(seq);
@@ -113,7 +129,7 @@ public class autotesting extends LinearOpMode {
                 case WAITING:
                     break;
                 case EXTEND:
-                    lift.setTargetPosition(1200);
+                    lift.setTargetPosition(1150);
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     lift.setPower(1);
 

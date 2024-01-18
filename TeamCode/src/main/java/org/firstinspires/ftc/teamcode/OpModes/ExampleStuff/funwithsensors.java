@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-@Disabled
+
 @TeleOp (name="sensorstuff")
 public class funwithsensors extends LinearOpMode {
     ColorSensor back, front;
@@ -21,6 +21,9 @@ public class funwithsensors extends LinearOpMode {
             //if you're from the future please dont do this, bitshift/bitmask the value from back.argb() to impress teams!!1!!!11!
             telemetry.addData("Back sensor: ", back.red() + " " + back.green() + " " + back.blue());
             telemetry.addData("Front sensor: ", front.red() + " " + front.green() + " " + front.blue());
+            telemetry.addData("back sensor agrb", back.argb());
+            telemetry.addData("front sensor agrb", front.argb());
+
             telemetry.update();
         }
     }
