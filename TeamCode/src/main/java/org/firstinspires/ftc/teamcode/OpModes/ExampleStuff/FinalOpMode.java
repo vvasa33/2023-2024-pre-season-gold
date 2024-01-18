@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 
 @Config
-@TeleOp (name="run this for teleop guys", group = "FINAL")
+@TeleOp (name="this is the teleop", group = "FINAL")
 public class FinalOpMode extends LinearOpMode {
     public DcMotorEx fl, fr, bl, br;
     DcMotorEx lift, intake; //intake motor is called motor in the hardwaremap dont question it
@@ -256,15 +256,16 @@ public class FinalOpMode extends LinearOpMode {
                 //sensorOverride = false;
                 break;
             case MANUAL:
+                lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //i dont think this actually works
                 if (gamepad2.dpad_up) {
                     lift.setPower(0.2);
                 } else if (gamepad2.dpad_down) {
                     lift.setPower(-0.2);
                 }
-                if (lift.getCurrentPosition() > HardwareConstants.threshold) {
+                if (lift.getCurrentPosition() > 800) {
                     arm.setPosition(1);
-                } else if (lift.getCurrentPosition() < HardwareConstants.threshold) {
+                } else if (lift.getCurrentPosition() < 800) {
                     arm.setPosition(0);
                 }
                 break;
