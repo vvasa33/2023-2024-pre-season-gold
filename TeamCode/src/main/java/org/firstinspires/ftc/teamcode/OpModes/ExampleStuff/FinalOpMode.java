@@ -373,7 +373,7 @@ public class FinalOpMode extends LinearOpMode {
         if (gamepad1.left_trigger > 0.1) {
             intake.setPower(-gamepad1.left_trigger); //spit out
         } else if (gamepad1.right_trigger > 0.1) {
-            intake.setPower(gamepad1.right_trigger); //spit in
+            intake.setPower(gamepad1.right_trigger); //intake
         } else {
             intake.setPower(0);
         }
@@ -381,7 +381,7 @@ public class FinalOpMode extends LinearOpMode {
 
     public void controlDrone() {
         if (gamepad2.dpad_right) {
-            airplane.setPosition(1); //reset
+            airplane.setPosition(0.3); //reset
         }
     }
 }
