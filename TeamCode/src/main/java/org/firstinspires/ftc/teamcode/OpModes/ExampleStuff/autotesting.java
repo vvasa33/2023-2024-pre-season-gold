@@ -97,25 +97,26 @@ public class autotesting extends LinearOpMode {
                     currentLiftState = LiftStates.DEPOSIT;
                 })
                 .lineTo(new Vector2d(46, 41.1))
-                .splineToLinearHeading(new Pose2d(29,11, Math.toRadians(180)), Math.toRadians(180))
-                .splineTo(new Vector2d(-36.3, 11), Math.toRadians(180)) //go through door
-                .addDisplacementMarker(() -> {
-                    intake.setPower(1);
-                })
-                .splineTo(new Vector2d(-62, 6), Math.toRadians(180))
-                .waitSeconds(1)
+                .lineToLinearHeading(new Pose2d(50, 15.5, Math.toRadians(210))) //park right
+//                .splineToLinearHeading(new Pose2d(29,11, Math.toRadians(180)), Math.toRadians(180))
+//                .splineTo(new Vector2d(-36.3, 11), Math.toRadians(180)) //go through door
 //                .addDisplacementMarker(() -> {
-//                    intake.setPower(-1);
-//
+//                    intake.setPower(1);
 //                })
-                .lineTo(new Vector2d(-56, 6))
-
-
-                .splineTo(new Vector2d(-36.3,6), Math.toRadians(0)) //line up with the backstage door
-                .addDisplacementMarker(() -> {
-                    intake.setPower(0);
-                })
-                .splineTo(new Vector2d(10,6), Math.toRadians(0)) //go through
+//                .splineTo(new Vector2d(-62, 6), Math.toRadians(180))
+//                .waitSeconds(1)
+////                .addDisplacementMarker(() -> {
+////                    intake.setPower(-1);
+////
+////                })
+//                .lineTo(new Vector2d(-56, 6))
+//
+//
+//                .splineTo(new Vector2d(-36.3,6), Math.toRadians(0)) //line up with the backstage door
+//                .addDisplacementMarker(() -> {
+//                    intake.setPower(0);
+//                })
+//                .splineTo(new Vector2d(10,6), Math.toRadians(0)) //go through
                 .build();
 
         drive.followTrajectorySequenceAsync(seq);

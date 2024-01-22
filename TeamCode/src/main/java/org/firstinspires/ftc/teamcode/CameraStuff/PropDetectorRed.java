@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.CameraStuff;
 
 import android.graphics.Canvas;
 
+import com.acmerobotics.dashboard.config.Config;
+
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 import org.firstinspires.ftc.vision.VisionProcessor;
@@ -12,6 +14,7 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
+@Config
 public class PropDetectorRed implements VisionProcessor {
     Mat test = new Mat();
     Mat highMat = new Mat();
@@ -26,9 +29,11 @@ public class PropDetectorRed implements VisionProcessor {
 
     public static HardwareConstants.CameraAreas area = HardwareConstants.CameraAreas.CENTER;
 
+    public static int x, y, x2, y2;
+
     static final Rect leftRect = new Rect(
-            new Point(0,0),
-            new Point(0,0)
+            new Point(x,y),
+            new Point(x2,y2)
     );
 
     static final Rect rightRect = new Rect(

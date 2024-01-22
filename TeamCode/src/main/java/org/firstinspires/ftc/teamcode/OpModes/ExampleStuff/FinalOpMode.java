@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
 import com.arcrobotics.ftclib.gamepad.GamepadKeys;
+import com.outoftheboxrobotics.photoncore.Photon;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -16,8 +17,10 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
 
 @Config
+@Photon
 @TeleOp (name="this is the teleop", group = "FINAL")
 public class FinalOpMode extends LinearOpMode {
+    public boolean toggle = false;
     public DcMotorEx fl, fr, bl, br;
     DcMotorEx lift, intake; //intake motor is called motor in the hardwaremap dont question it
 
@@ -28,7 +31,7 @@ public class FinalOpMode extends LinearOpMode {
 
     GamepadEx gamepad;
 
-    ColorSensor backSensor, frontSensor;
+    ColorSensor backSensor; //frontSensor;
 
     public ElapsedTime backTimer, frontTimer, liftTimer, armTimer;
 
@@ -132,9 +135,9 @@ public class FinalOpMode extends LinearOpMode {
         gamepad = new GamepadEx(gamepad2);
 
         backSensor = hardwareMap.get(ColorSensor.class, "back");
-        frontSensor = hardwareMap.get(ColorSensor.class, "front");
+        //frontSensor = hardwareMap.get(ColorSensor.class, "front");
         backSensor.enableLed(true);
-        frontSensor.enableLed(true);
+        //frontSensor.enableLed(true);
 
         intake = hardwareMap.get(DcMotorEx.class, "motor");
 
@@ -201,7 +204,7 @@ public class FinalOpMode extends LinearOpMode {
             liftState = LiftStates.EXTENDING;
             liftTarget = LiftPositions.HANG.getValue();
             jointTarget = 0.7;
-            armTarget = 1;
+            armTarget = 0.7;
         } else if (gamepad2.dpad_up || gamepad2.dpad_down) {
             liftState = LiftStates.MANUAL;
             lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -244,7 +247,7 @@ public class FinalOpMode extends LinearOpMode {
                 break;
             case RETRACT:
                 sensorOverride = false;
-                if (armTimer.seconds() > 1) {
+                if (armTimer.seconds() > 0.8) {
                     lift.setTargetPosition(LiftPositions.GROUND.getValue());
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     //who did this??? (probably zach)
@@ -253,9 +256,7 @@ public class FinalOpMode extends LinearOpMode {
                     lift.setPower(1);
                 }
 
-                if (!lift.isBusy()) {
-                    liftState = LiftStates.WAITING;
-                }
+
                 arm.setPosition(0);
                 joint.setPosition(0.45);
                 //sensorOverride = false;
@@ -283,47 +284,64 @@ public class FinalOpMode extends LinearOpMode {
     //please dont do this to yourself why did i even say we should have sensors
     //also this logic took me like 30 minutes to figure out
     public void controlClaws() {
-        currentFront = frontSensor.argb();
-        currentBack = backSensor.argb();
+        //currentFront = frontSensor.argb();
+//        currentBack = backSensor.argb();
+//
+//        //setting timers & closing if the timers hit 3 seconds
+////        if (Math.abs(currentFront - previousFront) > 100000000 && liftState == LiftStates.WAITING && !sensorOverride) {
+////             frontTimer.reset();
+////        }
+//        if (Math.abs(currentBack - previousBack) > 100000000 && liftState == LiftStates.WAITING && !sensorOverride) {
+//            backTimer.reset();
+//        }
 
-        //setting timers & closing if the timers hit 3 seconds
-        if (Math.abs(currentFront - previousFront) > 100000000 && liftState == LiftStates.WAITING && !sensorOverride) {
-             frontTimer.reset();
-        } else if (Math.abs(currentBack - previousBack) > 100000000 && liftState == LiftStates.WAITING && !sensorOverride) {
-            backTimer.reset();
-        }
-
-        if (frontTimer.seconds() > 3 && currentFront != 0) {
-            frontClawState = FrontClawStates.CLOSE;
-            frontClaw.setPosition(frontClawState.getValue());
-        } else if (backTimer.seconds() > 3 && currentBack != 0) {
-            backClawState = BackClawStates.CLOSE;
-            backClaw.setPosition(backClawState.getValue());
-        }
+//        if (frontTimer.seconds() > 3 && currentFront != 0) {
+//            frontClawState = FrontClawStates.CLOSE;
+//            frontClaw.setPosition(frontClawState.getValue());
+//        }
+//            if (backTimer.seconds() > 3 && currentBack != 0) {
+//            backClawState = BackClawStates.CLOSE;
+//            backClaw.setPosition(backClawState.getValue());
+//        }
 
         //overrides for the claw, they get reset everytime the claw comes down
         if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && liftState == LiftStates.WAITING && frontClawState == FrontClawStates.OPEN) {
-            sensorOverride = true;
+            //sensorOverride = true;
             frontClawState = FrontClawStates.CLOSE;
             frontClaw.setPosition(frontClawState.getValue());
         } else if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && liftState == LiftStates.WAITING && frontClawState == FrontClawStates.CLOSE) {
-            sensorOverride = true;
+            //sensorOverride = true;
             frontClawState = FrontClawStates.OPEN;
             frontClaw.setPosition(frontClawState.getValue());
         }
 
         if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && liftState == LiftStates.WAITING && backClawState == BackClawStates.OPEN) {
             sensorOverride = true;
-            frontClawState = FrontClawStates.CLOSE;
-            frontClaw.setPosition(frontClawState.getValue());
+            backClawState = BackClawStates.CLOSE;
+            backClaw.setPosition(backClawState.getValue());
         } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && liftState == LiftStates.WAITING && backClawState == BackClawStates.CLOSE) {
             sensorOverride = true;
             backClawState = BackClawStates.OPEN;
             backClaw.setPosition(backClawState.getValue());
         }
 
-        previousBack = currentBack;
-        previousFront = currentFront;
+        //toggle true = close, false = open
+        if (gamepad2.dpad_left && !toggle) {
+            frontClawState = FrontClawStates.CLOSE;
+            frontClaw.setPosition(frontClawState.getValue());
+            backClawState = BackClawStates.CLOSE;
+            backClaw.setPosition(backClawState.getValue());
+            toggle = !toggle;
+        } else if (gamepad2.dpad_left && toggle) {
+            frontClawState = FrontClawStates.OPEN;
+            frontClaw.setPosition(frontClawState.getValue());
+            backClawState = BackClawStates.OPEN;
+            backClaw.setPosition(backClawState.getValue());
+            toggle = !toggle;
+        }
+
+        //previousBack = currentBack;
+        //previousFront = currentFront;
 
         telemetry.addData("Front Sensor Reading", currentFront);
         telemetry.addData("Back Sensor Reading", currentBack);
