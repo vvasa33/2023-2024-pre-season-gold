@@ -110,7 +110,7 @@ public class HardwareConstants {
     public static final double slowLiftSpeed = 0.3;
     public static final double noLiftSpeed = 0.0;
 
-    public static final int threshold = 750;
+    public static final int threshold = 1200;
 
     //
 

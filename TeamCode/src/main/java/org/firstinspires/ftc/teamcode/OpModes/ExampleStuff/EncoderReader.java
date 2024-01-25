@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-@Disabled
+
 @TeleOp (name="Encoder Reader")
 public class EncoderReader extends LinearOpMode {
     DcMotorEx lift;

@@ -152,7 +152,7 @@ public class FinalOpMode extends LinearOpMode {
         airplane = hardwareMap.get(Servo.class, "airplane");
 
         arm.setPosition(0);
-        joint.setPosition(0.45);
+        joint.setPosition(0.48);
         frontClaw.setPosition(0.55);
         backClaw.setPosition(0.37);
         airplane.setPosition(0);
@@ -203,18 +203,19 @@ public class FinalOpMode extends LinearOpMode {
         } else if (gamepad2.y) {
             liftState = LiftStates.EXTENDING;
             liftTarget = LiftPositions.HANG.getValue();
-            jointTarget = 0.7;
+            jointTarget = 0.89;
             armTarget = 0.7;
         } else if (gamepad2.dpad_up || gamepad2.dpad_down) {
             liftState = LiftStates.MANUAL;
             lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
-
+        //Finite state machine for the lift, which changes the code that runs for each of the
+        //states that our lift can use in
         switch (liftState) {
             case WAITING:
                 break;
             case EXTENDING:
-                lift.setTargetPosition(liftTarget * 2);
+                lift.setTargetPosition(liftTarget * 3);
                 lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 lift.setPower(1);
 
@@ -229,25 +230,10 @@ public class FinalOpMode extends LinearOpMode {
                 break;
             //we dont actually need a deposit case i just like having control
             case DEPOSIT:
-                if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && frontClawState == FrontClawStates.OPEN) {
-                    frontClawState = FrontClawStates.CLOSE;
-                    frontClaw.setPosition(frontClawState.getValue());
-                } else if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && frontClawState == FrontClawStates.CLOSE) {
-                    frontClawState = FrontClawStates.OPEN;
-                    frontClaw.setPosition(frontClawState.getValue());
-                }
-
-                if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.OPEN) {
-                    frontClawState = FrontClawStates.CLOSE;
-                    frontClaw.setPosition(frontClawState.getValue());
-                } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.CLOSE) {
-                    backClawState = BackClawStates.OPEN;
-                    backClaw.setPosition(backClawState.getValue());
-                }
                 break;
             case RETRACT:
                 sensorOverride = false;
-                if (armTimer.seconds() > 0.8) {
+                if (armTimer.seconds() > 0.5) {
                     lift.setTargetPosition(LiftPositions.GROUND.getValue());
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     //who did this??? (probably zach)
@@ -256,23 +242,25 @@ public class FinalOpMode extends LinearOpMode {
                     lift.setPower(1);
                 }
 
+                if (lift.getCurrentPosition() < 5) {
+                    liftState = LiftStates.WAITING;
+                }
+
 
                 arm.setPosition(0);
-                joint.setPosition(0.45);
+                joint.setPosition(0.48);
                 //sensorOverride = false;
                 break;
             case MANUAL:
                 lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //i dont think this actually works
+                //it does actually
                 if (gamepad2.dpad_up) {
-                    lift.setPower(0.2);
+                    lift.setPower(0.5);
                 } else if (gamepad2.dpad_down) {
-                    lift.setPower(-0.2);
-                }
-                if (lift.getCurrentPosition() > 800) {
-                    arm.setPosition(1);
-                } else if (lift.getCurrentPosition() < 800) {
-                    arm.setPosition(0);
+                    lift.setPower(-0.5);
+                } else {
+                    lift.setPower(0);
                 }
                 break;
         }
@@ -305,34 +293,30 @@ public class FinalOpMode extends LinearOpMode {
 //        }
 
         //overrides for the claw, they get reset everytime the claw comes down
-        if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && liftState == LiftStates.WAITING && frontClawState == FrontClawStates.OPEN) {
-            //sensorOverride = true;
+        if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && frontClawState == FrontClawStates.OPEN) {
             frontClawState = FrontClawStates.CLOSE;
             frontClaw.setPosition(frontClawState.getValue());
-        } else if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && liftState == LiftStates.WAITING && frontClawState == FrontClawStates.CLOSE) {
-            //sensorOverride = true;
+        } else if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && frontClawState == FrontClawStates.CLOSE) {
             frontClawState = FrontClawStates.OPEN;
             frontClaw.setPosition(frontClawState.getValue());
         }
 
-        if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && liftState == LiftStates.WAITING && backClawState == BackClawStates.OPEN) {
-            sensorOverride = true;
-            backClawState = BackClawStates.CLOSE;
-            backClaw.setPosition(backClawState.getValue());
-        } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && liftState == LiftStates.WAITING && backClawState == BackClawStates.CLOSE) {
-            sensorOverride = true;
-            backClawState = BackClawStates.OPEN;
-            backClaw.setPosition(backClawState.getValue());
+        if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.OPEN) {
+            frontClawState = FrontClawStates.CLOSE;
+            frontClaw.setPosition(frontClawState.getValue());
+        } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.CLOSE) {
+            frontClawState = FrontClawStates.OPEN;
+            frontClaw.setPosition(frontClawState.getValue());
         }
 
         //toggle true = close, false = open
-        if (gamepad2.dpad_left && !toggle) {
+        if (gamepad.wasJustPressed(GamepadKeys.Button.DPAD_LEFT) && !toggle) {
             frontClawState = FrontClawStates.CLOSE;
             frontClaw.setPosition(frontClawState.getValue());
             backClawState = BackClawStates.CLOSE;
             backClaw.setPosition(backClawState.getValue());
             toggle = !toggle;
-        } else if (gamepad2.dpad_left && toggle) {
+        } else if (gamepad.wasJustPressed(GamepadKeys.Button.DPAD_LEFT) && toggle) {
             frontClawState = FrontClawStates.OPEN;
             frontClaw.setPosition(frontClawState.getValue());
             backClawState = BackClawStates.OPEN;
@@ -377,6 +361,8 @@ public class FinalOpMode extends LinearOpMode {
                 break;
         }
 
+
+
         //changes state for that fsm
         if (gamepad1.b && currentDriveState == DriveStates.FRONT) {
             currentDriveState = DriveStates.BACK;
@@ -389,9 +375,9 @@ public class FinalOpMode extends LinearOpMode {
 
     public void controlIntake() {
         if (gamepad1.left_trigger > 0.1) {
-            intake.setPower(-gamepad1.left_trigger); //spit out
+            intake.setPower(-gamepad1.left_trigger / 0.85); //spit out
         } else if (gamepad1.right_trigger > 0.1) {
-            intake.setPower(gamepad1.right_trigger); //intake
+            intake.setPower(gamepad1.right_trigger / 0.85); //intake
         } else {
             intake.setPower(0);
         }

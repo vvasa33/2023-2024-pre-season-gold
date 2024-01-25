@@ -9,8 +9,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.vision.VisionPortal;
 
-import java.util.Locale;
-
 @TeleOp (name="cameratest")
 public class CameraTest extends LinearOpMode {
     private VisionPortal portal;
@@ -27,8 +25,10 @@ public class CameraTest extends LinearOpMode {
 
         //portal.saveNextFrameRaw(String.format(Locale.US, "CameraFrameCapture-%06d"));
         waitForStart();
-        telemetry.addLine(String.valueOf(pipeline.getArea()));
-        telemetry.update();
+        while (opModeIsActive()) {
+            telemetry.addLine(String.valueOf(pipeline.getArea()));
+            telemetry.update();
+        }
 
     }
 }
