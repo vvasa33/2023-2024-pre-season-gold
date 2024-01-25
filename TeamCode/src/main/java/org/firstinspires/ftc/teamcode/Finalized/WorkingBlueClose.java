@@ -71,33 +71,56 @@ public class WorkingBlueClose extends LinearOpMode {
             telemetry.update();
         }
 
+        //drive.setPoseEstimate();
+        Trajectory spikeMark, moveBack, splineTo, boardMoveBack;
+
+        drive = new SampleMecanumDrive(hardwareMap);
+
         drive.setPoseEstimate(new Pose2d(15, 62.7, Math.toRadians(270)));
-        Trajectory spikeMark;
 
         switch (pipeline.getArea()) {
             case LEFT: default:
-                spikeMark = drive.trajectoryBuilder(drive.getPoseEstimate())
+                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
                         .lineTo(new Vector2d(22.7,50))
+                        .build();
+                moveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .lineTo(new Vector2d(22.7, 45))
+                        .build();
+                splineTo = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(49.8, 43.5, Math.toRadians(180)), Math.toRadians(0))
+                        .build();
+                boardMoveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .lineTo(new Vector2d(48, 43.5))
                         .build();
             case CENTER:
-                spikeMark = drive.trajectoryBuilder(drive.getPoseEstimate())
+                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
                         .lineTo(new Vector2d(16,33.7))
+                        .build();
+                moveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .lineTo(new Vector2d(16, 40))
+                        .build();
+                splineTo = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .splineToLinearHeading(new Pose2d(49.8, 34.7, Math.toRadians(180)), Math.toRadians(0))
+                        .build();
+                boardMoveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .lineTo(new Vector2d(48, 34.7))
                         .build();
             case RIGHT:
-                spikeMark = drive.trajectoryBuilder(drive.getPoseEstimate())
-                        .lineToLinearHeading(new Pose2d(10,35,  Math.toRadians(180)))
+                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(15,35,  Math.toRadians(180)))
+                        .build();
+                moveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                        .lineTo(new Vector2d(20, 35))
+                        .build();
+                splineTo = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .lineToLinearHeading(new Pose2d(49.8, 28.4, Math.toRadians(180))) //board spot right
+                        .build();
+                boardMoveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
                         .lineTo(new Vector2d(48, 27))
                         .build();
         }
 
-        drive = new SampleMecanumDrive(hardwareMap);
+
         intake = hardwareMap.get(DcMotorEx.class, "motor");
         lift = hardwareMap.get(DcMotorEx.class, "lift");
 
@@ -138,19 +161,22 @@ public class WorkingBlueClose extends LinearOpMode {
                     backClaw.setPosition(0.52);
                 })
 
+                .addTrajectory(moveBack)
                 //.lineTo(new Vector2d(22.7, 45))
                 //.waitSeconds(0.2)
                 .addTemporalMarker(3, () -> {
                     intake.setPower(0);
                     backClaw.setPosition(0.52);
                 })
+                .addTrajectory(splineTo)
                 //.splineToLinearHeading(new Pose2d(49.8, 43.5, Math.toRadians(180)), Math.toRadians(0)) //left
                 //.splineToLinearHeading(new Pose2d(47.1, 34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle
-                .addDisplacementMarker(() -> {
+                .addTemporalMarker(7, () -> {
                     backClaw.setPosition(0.52);
                     depositTimer.reset();
                     currentLiftState = LiftStates.DEPOSIT;
                 })
+                .addTrajectory(boardMoveBack)
                 //.lineTo(new Vector2d(46, 41.1))
                 .lineToLinearHeading(new Pose2d(44, 59.4, Math.toRadians(225)))
                 .build();
