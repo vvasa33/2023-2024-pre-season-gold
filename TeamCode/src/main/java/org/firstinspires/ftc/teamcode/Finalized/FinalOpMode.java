@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
+package org.firstinspires.ftc.teamcode.Finalized;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.gamepad.GamepadEx;
@@ -271,6 +271,7 @@ public class FinalOpMode extends LinearOpMode {
 
     //please dont do this to yourself why did i even say we should have sensors
     //also this logic took me like 30 minutes to figure out
+    //guys this doesnt work anymore because i commneted it out but it should theoretically work if you paste it into your code
     public void controlClaws() {
         //currentFront = frontSensor.argb();
 //        currentBack = backSensor.argb();
