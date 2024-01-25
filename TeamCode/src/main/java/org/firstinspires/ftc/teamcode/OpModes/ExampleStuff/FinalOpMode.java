@@ -302,11 +302,11 @@ public class FinalOpMode extends LinearOpMode {
         }
 
         if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.OPEN) {
-            frontClawState = FrontClawStates.CLOSE;
-            frontClaw.setPosition(frontClawState.getValue());
+            backClawState = BackClawStates.CLOSE;
+            backClaw.setPosition(backClawState.getValue());
         } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.CLOSE) {
-            frontClawState = FrontClawStates.OPEN;
-            frontClaw.setPosition(frontClawState.getValue());
+            backClawState = BackClawStates.OPEN;
+            backClaw.setPosition(backClawState.getValue());
         }
 
         //toggle true = close, false = open

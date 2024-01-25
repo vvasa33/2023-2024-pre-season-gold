@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.ExampleStuff;
 
+import android.util.Size;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.outoftheboxrobotics.photoncore.Photon;
@@ -11,12 +13,20 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.CameraStuff.PropDetectorBlue;
+import org.firstinspires.ftc.teamcode.CameraStuff.PropDetectorRed;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.firstinspires.ftc.vision.VisionPortal;
 
 //@Photon
 @Autonomous (name="AUTOTESTING BLUE")
 public class autotesting extends LinearOpMode {
+
+    private VisionPortal portal;
+    private PropDetectorBlue pipeline;
 
     SampleMecanumDrive drive;
     DcMotorEx intake;
@@ -48,6 +58,19 @@ public class autotesting extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        pipeline = new PropDetectorBlue();
+        portal = new VisionPortal.Builder()
+                .setCamera(hardwareMap.get(WebcamName.class, "0")) //the zero represents the first webcam detected by the control hub os
+                .setCameraResolution(new Size(640,480))
+                .setCamera(BuiltinCameraDirection.BACK)
+                .addProcessor(pipeline)
+                .build();
+
+        while (opModeInInit()) {
+            telemetry.addLine(String.valueOf(pipeline.getArea()));
+            telemetry.update();
+        }
+
         drive = new SampleMecanumDrive(hardwareMap);
         intake = hardwareMap.get(DcMotorEx.class, "motor");
         lift = hardwareMap.get(DcMotorEx.class, "lift");
@@ -75,27 +98,28 @@ public class autotesting extends LinearOpMode {
         backClaw.setPosition(0.52);
 
 
-        drive.setPoseEstimate(new Pose2d(14.65/2, 62.7, Math.toRadians(270)));
+        drive.setPoseEstimate(new Pose2d(15, 62.7, Math.toRadians(270)));
 
-        TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(14.65/2, 62.7, Math.toRadians(270)))
-                //.lineTo(new Vector2d(22.7,48)) //vision spike left
-                .lineTo(new Vector2d(16,33.7)) //vision spike middle
+        TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
+                .lineTo(new Vector2d(22.7,50)) //vision spike left
+                //.lineTo(new Vector2d(16,33.7)) //vision spike middle
+
 
                 //run the intake
                 .addTemporalMarker(1.2, () -> {
-                    intake.setPower(0.4);
+                    intake.setPower(0.2);
                     currentLiftState = LiftStates.EXTEND;
                     backClaw.setPosition(0.52);
                 })
 
-                .lineTo(new Vector2d(16, 37))
+                .lineTo(new Vector2d(22.7, 45))
                 //.waitSeconds(0.2)
                 .addTemporalMarker(3, () -> {
                     intake.setPower(0);
                     backClaw.setPosition(0.52);
                 })
-                //.splineToLinearHeading(new Pose2d(48.6, 43.5, Math.toRadians(180)), Math.toRadians(0)) left
-                .splineToLinearHeading(new Pose2d(47.1, 34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle
+                .splineToLinearHeading(new Pose2d(49.8, 43.5, Math.toRadians(180)), Math.toRadians(0)) //left
+                //.splineToLinearHeading(new Pose2d(47.1, 34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle
                 .addDisplacementMarker(() -> {
                     backClaw.setPosition(0.52);
                     depositTimer.reset();
@@ -116,11 +140,11 @@ public class autotesting extends LinearOpMode {
                 case WAITING:
                     break;
                 case EXTEND:
-                    lift.setTargetPosition(1150);
+                    lift.setTargetPosition(2000);
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                     lift.setPower(1);
 
-                    if (lift.getCurrentPosition() > 1000) {
+                    if (lift.getCurrentPosition() > 1200) {
                         arm.setPosition(0.5);
                         joint.setPosition(0.67);
                     }
