@@ -83,39 +83,39 @@ public class WorkingBlueClose extends LinearOpMode {
                 spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
                         .lineTo(new Vector2d(22.7,50))
                         .build();
-                moveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                moveBack = drive.trajectoryBuilder(spikeMark.end())
                         .lineTo(new Vector2d(22.7, 45))
                         .build();
-                splineTo = drive.trajectoryBuilder(drive.getPoseEstimate())
+                splineTo = drive.trajectoryBuilder(moveBack.end())
                         .splineToLinearHeading(new Pose2d(49.8, 43.5, Math.toRadians(180)), Math.toRadians(0))
                         .build();
-                boardMoveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
                         .lineTo(new Vector2d(48, 43.5))
                         .build();
             case CENTER:
                 spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
                         .lineTo(new Vector2d(16,33.7))
                         .build();
-                moveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                moveBack = drive.trajectoryBuilder(spikeMark.end())
                         .lineTo(new Vector2d(16, 40))
                         .build();
-                splineTo = drive.trajectoryBuilder(drive.getPoseEstimate())
+                splineTo = drive.trajectoryBuilder(moveBack.end())
                         .splineToLinearHeading(new Pose2d(49.8, 34.7, Math.toRadians(180)), Math.toRadians(0))
                         .build();
-                boardMoveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
                         .lineTo(new Vector2d(48, 34.7))
                         .build();
             case RIGHT:
                 spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
                         .lineToLinearHeading(new Pose2d(15,35,  Math.toRadians(180)))
                         .build();
-                moveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                moveBack = drive.trajectoryBuilder(spikeMark.end())
                         .lineTo(new Vector2d(20, 35))
                         .build();
-                splineTo = drive.trajectoryBuilder(drive.getPoseEstimate())
+                splineTo = drive.trajectoryBuilder(moveBack.end())
                         .lineToLinearHeading(new Pose2d(49.8, 28.4, Math.toRadians(180))) //board spot right
                         .build();
-                boardMoveBack = drive.trajectoryBuilder(drive.getPoseEstimate())
+                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
                         .lineTo(new Vector2d(48, 27))
                         .build();
         }

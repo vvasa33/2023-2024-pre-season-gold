@@ -273,7 +273,7 @@ public class LeftCloseAutoSelection extends LinearOpMode {
 
 
             LocalizationStorageCloser.firstPassToPixel = firstResponse;
-            LocalizationStorageCloser.firstPixelStack = secondResponse;
+            LocalizationStorageCloser.firstPixelStack = secondResponse;   
             LocalizationStorageCloser.firstPassToScore = thirdResponse;
             LocalizationStorageCloser.firstCycleScore = fourthResponse;
             LocalizationStorageCloser.secondPassToPixel = fifthResponse;
