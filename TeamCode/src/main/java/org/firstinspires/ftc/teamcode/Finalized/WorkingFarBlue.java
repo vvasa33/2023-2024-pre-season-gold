@@ -24,8 +24,8 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.vision.VisionPortal;
 
 
-@Autonomous (name="WorkingRedClose", group="FINAL")
-public class WorkingRedClose extends LinearOpMode {
+@Autonomous (name="WorkingFarBlue", group="FINAL")
+public class WorkingFarBlue extends LinearOpMode {
     private VisionPortal portal;
     private PropDetectorRed pipeline;
 
@@ -70,7 +70,7 @@ public class WorkingRedClose extends LinearOpMode {
 
 
         //drive.setPoseEstimate();
-        Trajectory spikeMark, moveBack, splineTo, boardMoveBack;
+        Trajectory spikeMark, lineUp, splineTo, boardMoveBack;
 
         drive = new SampleMecanumDrive(hardwareMap);
 
@@ -133,14 +133,15 @@ public class WorkingRedClose extends LinearOpMode {
 //                        .lineTo(new Vector2d(48, 43.5))
 //                        .build();
 //                break;
-                spikeMark = drive.trajectoryBuilder(new Pose2d(15, -62.7, Math.toRadians(90)))
-                        .lineToLinearHeading(new Pose2d(12,-35,  Math.toRadians(180)))
+                spikeMark = drive.trajectoryBuilder(new Pose2d(-31, 62.7, Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(-31.6, 31.8, Math.toRadians(0)))
                         .build();
-                moveBack = drive.trajectoryBuilder(spikeMark.end())
-                        .lineTo(new Vector2d(10, -35))
+                lineUp = drive.trajectoryBuilder(spikeMark.end())
+                        .lineToLinearHeading(new Pose2d(-36.3, 10.1, Math.toRadians(180)))
+                        .lineTo(new Vector2d(10, 10))
                         .build();
-                splineTo = drive.trajectoryBuilder(moveBack.end())
-                        .lineToLinearHeading(new Pose2d(50.7, -28.9, Math.toRadians(180))) //board spot right
+                splineTo = drive.trajectoryBuilder(lineUp.end())
+                        .splineToLinearHeading(new Pose2d(50.5, 43.5, Math.toRadians(180)), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
                             backClaw.setPosition(0.52);
                             depositTimer.reset();
@@ -148,18 +149,18 @@ public class WorkingRedClose extends LinearOpMode {
                         })
                         .build();
                 boardMoveBack = drive.trajectoryBuilder(splineTo.end())
-                        .lineTo(new Vector2d(48, -27))
+                        .lineTo(new Vector2d(48, 27))
                         .build();
                 break;
             case CENTER:
-                spikeMark = drive.trajectoryBuilder(new Pose2d(15, -62.7, Math.toRadians(90)))
-                        .lineTo(new Vector2d(16,-37))
+                spikeMark = drive.trajectoryBuilder(new Pose2d(-31, 62.7, Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(-36.3, 10, Math.toRadians(90)))
                         .build();
-                moveBack = drive.trajectoryBuilder(spikeMark.end())
-                        .lineTo(new Vector2d(16, -47))
+                lineUp = drive.trajectoryBuilder(spikeMark.end())
+                        .lineToLinearHeading(new Pose2d(-36.3, 10.1, Math.toRadians(180)))
                         .build();
-                splineTo = drive.trajectoryBuilder(moveBack.end())
-                        .splineToLinearHeading(new Pose2d(50.7, -34.7, Math.toRadians(180)), Math.toRadians(0))
+                splineTo = drive.trajectoryBuilder(lineUp.end())
+                        .splineToLinearHeading(new Pose2d(50.7, 34.7, Math.toRadians(180)), Math.toRadians(0))
                         .addDisplacementMarker(() -> {
                             backClaw.setPosition(0.52);
                             depositTimer.reset();
@@ -167,18 +168,18 @@ public class WorkingRedClose extends LinearOpMode {
                         })
                         .build();
                 boardMoveBack = drive.trajectoryBuilder(splineTo.end())
-                        .lineTo(new Vector2d(48, -34.7))
+                        .lineTo(new Vector2d(48, 34.7))
                         .build();
                 break;
             case RIGHT:
-                spikeMark = drive.trajectoryBuilder(new Pose2d(15, -62.7, Math.toRadians(90)))
-                        .lineTo(new Vector2d(23.7,-48))
+                spikeMark = drive.trajectoryBuilder(new Pose2d(-31, 62.7, Math.toRadians(270)))
+                        .lineTo(new Vector2d(-46.1, 41.5))
                         .build();
-                moveBack = drive.trajectoryBuilder(spikeMark.end())
-                        .lineTo(new Vector2d(23.7, -52))
+                lineUp = drive.trajectoryBuilder(spikeMark.end())
+                        .splineToLinearHeading(new Pose2d(-36.3, 10.1, Math.toRadians(180)), 180)
                         .build();
-                splineTo = drive.trajectoryBuilder(moveBack.end())
-                        .splineToLinearHeading(new Pose2d(49.8, -43.5, Math.toRadians(180)), Math.toRadians(0))
+                splineTo = drive.trajectoryBuilder(lineUp.end())
+                        .lineToLinearHeading(new Pose2d(51, 28.9, Math.toRadians(180)))
                         .addDisplacementMarker(() -> {
                             backClaw.setPosition(0.52);
                             depositTimer.reset();
@@ -186,17 +187,17 @@ public class WorkingRedClose extends LinearOpMode {
                         })
                         .build();
                 boardMoveBack = drive.trajectoryBuilder(splineTo.end())
-                        .lineTo(new Vector2d(48, -43.5))
+                        .lineTo(new Vector2d(48, 43.5))
                         .build();
                 break;
         }
 
         Trajectory park = drive.trajectoryBuilder(boardMoveBack.end())
-                .lineToLinearHeading(new Pose2d(44, -58, Math.toRadians(135)))
+                .lineToLinearHeading(new Pose2d(44, 58, Math.toRadians(135)))
                 .build();
 
 
-        TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(15, -62.7, Math.toRadians(90)))
+        TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
 
                 .addTrajectory(spikeMark)
                 //run the intake
@@ -206,7 +207,7 @@ public class WorkingRedClose extends LinearOpMode {
                     backClaw.setPosition(0.52);
                 })
 
-                .addTrajectory(moveBack)
+                .addTrajectory(lineUp)
 
                 .addTemporalMarker(3, () -> {
                     intake.setPower(0);

@@ -92,8 +92,8 @@ public class autotesting extends LinearOpMode {
         frontClaw = hardwareMap.get(Servo.class, "claw1");
         backClaw = hardwareMap.get(Servo.class, "claw2");
 
-        arm.setPosition(0);
-        joint.setPosition(0.45);
+        arm.setPosition(0.03);
+        joint.setPosition(0.48);
         frontClaw.setPosition(0.55);
         backClaw.setPosition(0.52);
 
@@ -103,7 +103,6 @@ public class autotesting extends LinearOpMode {
         TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
                 .lineTo(new Vector2d(22.7,50)) //vision spike left
                 //.lineTo(new Vector2d(16,33.7)) //vision spike middle
-
 
                 //run the intake
                 .addTemporalMarker(1.2, () -> {
@@ -163,8 +162,8 @@ public class autotesting extends LinearOpMode {
                         lift.setPower(1);
                     }
 
-                    arm.setPosition(0);
-                    joint.setPosition(0.45);
+                    arm.setPosition(0.03);
+                    joint.setPosition(0.48);
 
                     if (lift.getCurrentPosition() < 5) {
                         currentLiftState = LiftStates.WAITING;

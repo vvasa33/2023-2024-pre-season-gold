@@ -13,20 +13,17 @@ public class meepmeepother {
         RoadRunnerBotEntity meepmeep = new DefaultBotBuilder(meep)
                 .setConstraints(60, 55, 4.115477328170351, Math.toRadians(194.6310524271845), 13.65)
                 .followTrajectorySequence(drive ->
-                        drive.trajectorySequenceBuilder(new Pose2d((14.65 / 2) + 1, 62.7, Math.toRadians(270)))
-                                .lineTo(new Vector2d(22.7,48))
-                                .lineTo(new Vector2d(22.7, 52))
-                                .splineToLinearHeading(new Pose2d(48.6, 43.1, Math.toRadians(180)), Math.toRadians(0))
-                                .lineTo(new Vector2d(45, 41.1))
-                                .splineToLinearHeading(new Pose2d(29,11, Math.toRadians(180)), Math.toRadians(180)) //align with the backstage door
-                                .splineTo(new Vector2d(-36.3, 11), Math.toRadians(180)) //go through door
+                        drive.trajectorySequenceBuilder(new Pose2d(-31, 62.7, Math.toRadians(270)))
+                                //.lineToLinearHeading(new Pose2d(-31.6, 31.8, Math.toRadians(0)))
+                                //.lineToLinearHeading(new Pose2d(-36.3, 10, Math.toRadians(90)))
+                                .lineTo(new Vector2d(-46.1, 41.5))
 
-                                .splineTo(new Vector2d(-58, 6), Math.toRadians(180))
-                                .turn(20)
-                                .lineTo(new Vector2d(-56, 6))
-
-
-                                .splineTo(new Vector2d(-36.3,6), Math.toRadians(0)) //line up with the backstage door
+                                //line up
+                                .splineToLinearHeading(new Pose2d(-36.3, 10.1, Math.toRadians(180)), 180)
+                                //go through
+                                .lineTo(new Vector2d(10, 10))
+                                //go to the board
+                                .splineToLinearHeading(new Pose2d(50.5, 43.5, Math.toRadians(180)), Math.toRadians(0))
                                 .build()
                 );
         meep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)

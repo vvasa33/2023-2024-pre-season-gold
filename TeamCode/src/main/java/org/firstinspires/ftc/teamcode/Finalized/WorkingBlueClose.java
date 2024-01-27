@@ -17,6 +17,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDir
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.CameraStuff.PropDetectorBlue;
 import org.firstinspires.ftc.teamcode.Hardware.HardwareConstants;
+import org.firstinspires.ftc.teamcode.Hardware.Subsystems.Lift;
 import org.firstinspires.ftc.teamcode.OpModes.ExampleStuff.autotesting;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
@@ -32,17 +33,19 @@ public class WorkingBlueClose extends LinearOpMode {
     DcMotorEx intake;
     DcMotorEx lift;
 
-    ElapsedTime depositTimer, liftTimer;
+    ElapsedTime depositTimer, liftTimer, gripTimer;
 
 
     enum LiftStates {
         WAITING,
         EXTEND,
         DEPOSIT,
-        RETRACT
+        RETRACT,
+        DOWN
     }
 
     public LiftStates currentLiftState = LiftStates.WAITING;
+    public LiftStates previousLiftState = LiftStates.WAITING;
 
     public enum ClawStates {
         OPEN,
@@ -66,10 +69,7 @@ public class WorkingBlueClose extends LinearOpMode {
                 .addProcessor(pipeline)
                 .build();
 
-        while (opModeInInit()) {
-            telemetry.addLine(String.valueOf(pipeline.getArea()));
-            telemetry.update();
-        }
+
 
         //drive.setPoseEstimate();
         Trajectory spikeMark, moveBack, splineTo, boardMoveBack;
@@ -78,47 +78,7 @@ public class WorkingBlueClose extends LinearOpMode {
 
         drive.setPoseEstimate(new Pose2d(15, 62.7, Math.toRadians(270)));
 
-        switch (pipeline.getArea()) {
-            case LEFT: default:
-                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
-                        .lineTo(new Vector2d(22.7,50))
-                        .build();
-                moveBack = drive.trajectoryBuilder(spikeMark.end())
-                        .lineTo(new Vector2d(22.7, 45))
-                        .build();
-                splineTo = drive.trajectoryBuilder(moveBack.end())
-                        .splineToLinearHeading(new Pose2d(49.8, 43.5, Math.toRadians(180)), Math.toRadians(0))
-                        .build();
-                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
-                        .lineTo(new Vector2d(48, 43.5))
-                        .build();
-            case CENTER:
-                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
-                        .lineTo(new Vector2d(16,33.7))
-                        .build();
-                moveBack = drive.trajectoryBuilder(spikeMark.end())
-                        .lineTo(new Vector2d(16, 40))
-                        .build();
-                splineTo = drive.trajectoryBuilder(moveBack.end())
-                        .splineToLinearHeading(new Pose2d(49.8, 34.7, Math.toRadians(180)), Math.toRadians(0))
-                        .build();
-                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
-                        .lineTo(new Vector2d(48, 34.7))
-                        .build();
-            case RIGHT:
-                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
-                        .lineToLinearHeading(new Pose2d(15,35,  Math.toRadians(180)))
-                        .build();
-                moveBack = drive.trajectoryBuilder(spikeMark.end())
-                        .lineTo(new Vector2d(20, 35))
-                        .build();
-                splineTo = drive.trajectoryBuilder(moveBack.end())
-                        .lineToLinearHeading(new Pose2d(49.8, 28.4, Math.toRadians(180))) //board spot right
-                        .build();
-                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
-                        .lineTo(new Vector2d(48, 27))
-                        .build();
-        }
+
 
 
         intake = hardwareMap.get(DcMotorEx.class, "motor");
@@ -131,9 +91,11 @@ public class WorkingBlueClose extends LinearOpMode {
 
         depositTimer = new ElapsedTime();
         liftTimer = new ElapsedTime();
+        gripTimer = new ElapsedTime();
 
         depositTimer.reset();
         liftTimer.reset();
+        gripTimer.reset();
 
         arm = hardwareMap.get(Servo.class, "arm"); //we control both with one thing now yay
 
@@ -141,49 +103,114 @@ public class WorkingBlueClose extends LinearOpMode {
         frontClaw = hardwareMap.get(Servo.class, "claw1");
         backClaw = hardwareMap.get(Servo.class, "claw2");
 
-        arm.setPosition(0);
-        joint.setPosition(0.45);
-        frontClaw.setPosition(0.55);
-        backClaw.setPosition(0.52);
+        arm.setPosition(0.02);
+        joint.setPosition(0.48);
 
 
+
+
+        while (opModeInInit()) {
+            telemetry.addLine(String.valueOf(pipeline.getArea()));
+            telemetry.update();
+            if (gripTimer.seconds() > 1) {
+                frontClaw.setPosition(0.55);
+                backClaw.setPosition(0.52);
+            }
+        }
+
+        waitForStart();
+
+        switch (pipeline.getArea()) {
+            case LEFT: default:
+                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
+                        .lineTo(new Vector2d(26.7,48))
+                        .build();
+                moveBack = drive.trajectoryBuilder(spikeMark.end())
+                        .lineTo(new Vector2d(23.7, 52))
+                        .build();
+                splineTo = drive.trajectoryBuilder(moveBack.end())
+                        .splineToLinearHeading(new Pose2d(50.5, 43.5, Math.toRadians(180)), Math.toRadians(0))
+                        .addDisplacementMarker(() -> {
+                            backClaw.setPosition(0.52);
+                            depositTimer.reset();
+                            currentLiftState = LiftStates.DEPOSIT;
+                        })
+                        .build();
+                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
+                        .lineTo(new Vector2d(48, 43.5))
+                        .build();
+                break;
+            case CENTER:
+                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
+                        .lineTo(new Vector2d(16,37))
+                        .build();
+                moveBack = drive.trajectoryBuilder(spikeMark.end())
+                        .lineTo(new Vector2d(16, 47))
+                        .build();
+                splineTo = drive.trajectoryBuilder(moveBack.end())
+                        .splineToLinearHeading(new Pose2d(50.7, 34.7, Math.toRadians(180)), Math.toRadians(0))
+                        .addDisplacementMarker(() -> {
+                            backClaw.setPosition(0.52);
+                            depositTimer.reset();
+                            currentLiftState = LiftStates.DEPOSIT;
+                        })
+                        .build();
+                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
+                        .lineTo(new Vector2d(48, 34.7))
+                        .build();
+                break;
+            case RIGHT:
+                spikeMark = drive.trajectoryBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
+                        .lineToLinearHeading(new Pose2d(13.7,35,  Math.toRadians(180)))
+                        .build();
+                moveBack = drive.trajectoryBuilder(spikeMark.end())
+                        .lineTo(new Vector2d(20, 35))
+                        .build();
+                splineTo = drive.trajectoryBuilder(moveBack.end())
+                        .lineToLinearHeading(new Pose2d(51, 28.9, Math.toRadians(180))) //board spot right
+                        .addDisplacementMarker(() -> {
+                            backClaw.setPosition(0.52);
+                            depositTimer.reset();
+                            currentLiftState = LiftStates.DEPOSIT;
+                        })
+                        .build();
+                boardMoveBack = drive.trajectoryBuilder(splineTo.end())
+                        .lineTo(new Vector2d(48, 27))
+                        .build();
+        }
+        Trajectory park = drive.trajectoryBuilder(boardMoveBack.end())
+                .lineToLinearHeading(new Pose2d(44, 58, Math.toRadians(225)))
+                .build();
 
 
         TrajectorySequence seq = drive.trajectorySequenceBuilder(new Pose2d(15, 62.7, Math.toRadians(270)))
-                //.lineTo(new Vector2d(22.7,50)) //vision spike left
-                //.lineTo(new Vector2d(16,33.7)) //vision spike middle
 
                 .addTrajectory(spikeMark)
                 //run the intake
                 .addTemporalMarker(1.2, () -> {
-                    intake.setPower(0.2);
+                    intake.setPower(0.35);
                     currentLiftState = LiftStates.EXTEND;
                     backClaw.setPosition(0.52);
                 })
 
                 .addTrajectory(moveBack)
-                //.lineTo(new Vector2d(22.7, 45))
-                //.waitSeconds(0.2)
+
                 .addTemporalMarker(3, () -> {
                     intake.setPower(0);
                     backClaw.setPosition(0.52);
+                    currentLiftState = LiftStates.DOWN;
                 })
+
                 .addTrajectory(splineTo)
-                //.splineToLinearHeading(new Pose2d(49.8, 43.5, Math.toRadians(180)), Math.toRadians(0)) //left
-                //.splineToLinearHeading(new Pose2d(47.1, 34.7, Math.toRadians(180)), Math.toRadians(0)) //board spot middle
-                .addTemporalMarker(7, () -> {
-                    backClaw.setPosition(0.52);
-                    depositTimer.reset();
-                    currentLiftState = LiftStates.DEPOSIT;
-                })
+
+
                 .addTrajectory(boardMoveBack)
                 //.lineTo(new Vector2d(46, 41.1))
-                .lineToLinearHeading(new Pose2d(44, 59.4, Math.toRadians(225)))
+                .addTrajectory(park)
                 .build();
 
         drive.followTrajectorySequenceAsync(seq);
 
-        waitForStart();
 
         while (opModeIsActive() && !isStopRequested()) {
             drive.update();
@@ -200,23 +227,35 @@ public class WorkingBlueClose extends LinearOpMode {
                         arm.setPosition(0.5);
                         joint.setPosition(0.67);
                     }
+
+                    if (previousLiftState == LiftStates.DOWN && liftTimer.seconds() > 0.5) {
+                        currentLiftState = LiftStates.RETRACT;
+                    }
                     break;
                 case DEPOSIT:
                     backClaw.setPosition(0.37);
                     if (depositTimer.seconds() > 0.2) {
-                        currentLiftState = LiftStates.RETRACT;
                         liftTimer.reset();
+                        currentLiftState = LiftStates.EXTEND;
+                        previousLiftState = LiftStates.DOWN;
                     }
                     break;
+                case DOWN:
+                    lift.setTargetPosition(1000);
+                    lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    lift.setPower(1);
+                    break;
                 case RETRACT:
-                    if (liftTimer.seconds() > 0.5) {
+                    if (liftTimer.seconds() > 1) {
                         lift.setTargetPosition(0);
                         lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                         lift.setPower(1);
                     }
 
-                    arm.setPosition(0);
-                    joint.setPosition(0.45);
+                    if (liftTimer.seconds() > 0.3) {
+                        arm.setPosition(0.02);
+                        joint.setPosition(0.48);
+                    }
 
                     if (lift.getCurrentPosition() < 5) {
                         currentLiftState = LiftStates.WAITING;

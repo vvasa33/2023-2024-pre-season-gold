@@ -151,7 +151,7 @@ public class FinalOpMode extends LinearOpMode {
         backClaw = hardwareMap.get(Servo.class, "claw2");
         airplane = hardwareMap.get(Servo.class, "airplane");
 
-        arm.setPosition(0);
+        arm.setPosition(0.02);
         joint.setPosition(0.48);
         frontClaw.setPosition(0.55);
         backClaw.setPosition(0.37);
@@ -232,7 +232,7 @@ public class FinalOpMode extends LinearOpMode {
             case DEPOSIT:
                 break;
             case RETRACT:
-                sensorOverride = false;
+                //sensorOverride = false;
                 if (armTimer.seconds() > 0.5) {
                     lift.setTargetPosition(LiftPositions.GROUND.getValue());
                     lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -247,7 +247,7 @@ public class FinalOpMode extends LinearOpMode {
                 }
 
 
-                arm.setPosition(0);
+                arm.setPosition(0.02);
                 joint.setPosition(0.48);
                 //sensorOverride = false;
                 break;
@@ -294,18 +294,18 @@ public class FinalOpMode extends LinearOpMode {
 //        }
 
         //overrides for the claw, they get reset everytime the claw comes down
-        if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && frontClawState == FrontClawStates.OPEN) {
+        if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && frontClawState == FrontClawStates.OPEN) {
             frontClawState = FrontClawStates.CLOSE;
             frontClaw.setPosition(frontClawState.getValue());
-        } else if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && frontClawState == FrontClawStates.CLOSE) {
+        } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && frontClawState == FrontClawStates.CLOSE) {
             frontClawState = FrontClawStates.OPEN;
             frontClaw.setPosition(frontClawState.getValue());
         }
 
-        if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.OPEN) {
+        if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && backClawState == BackClawStates.OPEN) {
             backClawState = BackClawStates.CLOSE;
             backClaw.setPosition(backClawState.getValue());
-        } else if (gamepad.wasJustPressed(GamepadKeys.Button.RIGHT_BUMPER) && backClawState == BackClawStates.CLOSE) {
+        } else if (gamepad.wasJustPressed(GamepadKeys.Button.LEFT_BUMPER) && backClawState == BackClawStates.CLOSE) {
             backClawState = BackClawStates.OPEN;
             backClaw.setPosition(backClawState.getValue());
         }
